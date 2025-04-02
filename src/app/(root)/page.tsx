@@ -38,7 +38,7 @@ export default function Home() {
       <section className="flex flex-col items-center justify-center text-center space-y-6 min-h-[80vh]">
         <div className="flex flex-col text-md sm:text-lg">
           The easiest way to learn
-          <span className="text-6xl sm:text-9xl font-black tracking-tighter bg-gradient-to-r from-ph-blue via-ph-yellow to-ph-red bg-clip-text text-transparent">
+          <span className="text-6xl sm:text-9xl font-black tracking-tighter bg-gradient-to-r from-ph-yellow via-ph-red to-ph-blue bg-clip-text text-transparent">
             TAGALOG
           </span>
         </div>
@@ -49,12 +49,12 @@ export default function Home() {
         </p>
 
         <div className="flex space-x-2 justify-center">
-          <Link href="/dictionary">
+          <Link href="/">
             <Button className="rounded-full cursor-pointer">
               Start Learning
             </Button>
           </Link>
-          <Link href="/dictionary">
+          <Link href="/">
             <Button variant="outline" className="rounded-full cursor-pointer">
               Try Demo
             </Button>
@@ -144,7 +144,7 @@ export default function Home() {
       </section>
 
       {/* Additional Information Section */}
-      <section className="max-w-4xl min-h-[80vh] w-full mx-auto px-4 py-20 mt-28 text-center">
+      <section className="flex justify-center flex-col max-w-4xl px-4 my-12 min-h-[80vh] w-full mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-16 tracking-tight">
           More than a language app
         </h2>
