@@ -38,7 +38,7 @@ export default function Home() {
       <section className="flex flex-col items-center justify-center text-center space-y-6 min-h-[80vh]">
         <div className="flex flex-col text-md sm:text-lg">
           The easiest way to learn
-          <span className="text-6xl sm:text-9xl font-black tracking-tighter bg-gradient-to-r from-ph-blue via-ph-red to-ph-yellow bg-clip-text text-transparent">
+          <span className="text-6xl sm:text-9xl font-black tracking-tighter bg-gradient-to-r from-ph-blue via-ph-yellow to-ph-red bg-clip-text text-transparent">
             TAGALOG
           </span>
         </div>
@@ -63,7 +63,7 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full min-h-[80vh] px-4 mx-auto auto-rows-[200px] md:auto-rows-[250px]">
+      <section className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full min-h-[80vh] px-4 mx-auto">
         {/* Smart Dictionary (BIG) */}
         <Card className="col-span-1 row-span-2 hover:shadow-lg transition">
           <CardContent className="h-full p-6 flex flex-col items-center justify-center text-center space-y-3">
