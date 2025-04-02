@@ -11,10 +11,10 @@ export default function Navbar() {
   const user = null;
 
   return (
-    <header className="relative bg-white h-[10vh] border-b border-gray-200">
+    <header className="relative h-[10vh]">
       <MaxWidthWrapper className="h-full">
         <nav className="h-full flex items-center justify-between">
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-4">
             <Link href="/" className="transition-all hover:text-red-600">
               <Logo />
             </Link>

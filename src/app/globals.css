@@ -72,6 +72,12 @@
   --sidebar-ring: oklch(0.551 0.027 264.364);
 }
 
+@theme {
+  --color-ph-blue: #0032A0;
+  --color-ph-red: #BF0D3E;
+  --color-ph-yellow: #FED141;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
