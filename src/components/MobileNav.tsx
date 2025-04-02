@@ -1,27 +1,26 @@
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { MenuIcon } from "lucide-react";
-import { Separator } from "./ui/separator";
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { MenuIcon } from 'lucide-react';
+import { Separator } from './ui/separator';
 
-import Logo from "./Logo";
-import AuthNav from "./AuthNav";
-import SearchBar from "./TranslateSearchBar";
+import Logo from './Logo';
+import SearchBar from './DictionarySearchBar';
 
 export default function MobileNav() {
   return (
-    <nav className="lg:hidden flex items-center">
+    <nav className="md:hidden flex items-center">
       <Sheet>
-        <SheetTrigger>
+        <SheetTrigger className="cursor-pointer">
           <MenuIcon className="transition-all hover:text-ph-red" />
         </SheetTrigger>
 
-        <SheetContent className="flex flex-col gap-6 bg-white lg:hidden">
+        <SheetContent
+          side="top"
+          className="flex flex-col gap-6 bg-white h-[30vh] p-4 md:hidden"
+        >
           <Logo />
           <Separator className="border border-gray-50" />
 
           <SearchBar />
-          <div className="lg:hidden">
-            <AuthNav />
-          </div>
         </SheetContent>
       </Sheet>
     </nav>

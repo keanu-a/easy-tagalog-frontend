@@ -1,10 +1,10 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import MaxWidthWrapper from "./MaxWidthWrapper";
-import Logo from "./Logo";
-import SearchBar from "./TranslateSearchBar";
-import MobileNav from "./MobileNav";
-import AuthNav from "./AuthNav";
+import MaxWidthWrapper from './MaxWidthWrapper';
+import Logo from './Logo';
+import DictionarySearchBar from './DictionarySearchBar';
+import MobileNav from './MobileNav';
+import { Button } from './ui/button';
 
 export default function Navbar() {
   // Test user
@@ -19,16 +19,20 @@ export default function Navbar() {
               <Logo />
             </Link>
 
-            <div className="hidden lg:block">
-              <SearchBar className="w-80" />
+            <div className="hidden md:block">
+              <DictionarySearchBar className="w-80" />
             </div>
           </div>
 
           <div className="flex gap-4">
             <MobileNav />
 
-            <div className="hidden lg:block">
-              {user === null && <AuthNav />}
+            <div className="hidden md:block">
+              {user === null && (
+                <Button className="rounded-full cursor-pointer">
+                  Get Started
+                </Button>
+              )}
             </div>
           </div>
         </nav>
