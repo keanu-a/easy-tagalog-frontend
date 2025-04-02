@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 
-const additionalPoints = [
+const ADDITIONAL_INFO = [
   {
     title: 'Filipino Customs & Etiquette',
     text: 'Learn how to navigate respectful communication, greetings, and social norms.',
@@ -144,13 +144,13 @@ export default function Home() {
       </section>
 
       {/* Additional Information Section */}
-      <section className="max-w-4xl min-h-[80vh] w-full mx-auto px-4 py-20 mt-24 text-center">
+      <section className="max-w-4xl min-h-[80vh] w-full mx-auto px-4 py-20 mt-28 text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-16 tracking-tight">
           More than a language app
         </h2>
 
         <ul className="space-y-10 text-left">
-          {additionalPoints.map(({ title, text }, idx) => (
+          {ADDITIONAL_INFO.map(({ title, text }, idx) => (
             <li key={idx}>
               <h4 className="text-lg font-semibold">{title}</h4>
               <p className="text-muted-foreground text-sm">{text}</p>
@@ -172,7 +172,8 @@ export default function Home() {
             </h1>
             <p className="text-muted-foreground">
               Handa ka na ba? Maybe if you started yesterday, you would know
-              what that means...
+              what that means... Start today and impress your friends and
+              family!
             </p>
             <Button size="lg" className="rounded-full cursor-pointer">
               Start Learning

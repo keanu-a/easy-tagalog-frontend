@@ -40,16 +40,19 @@ export default function Footer() {
   return (
     <footer className="bg-yellow-100">
       <MaxWidthWrapper className="flex flex-col justify-around items-center gap-8 px-2 py-10 md:flex-row md:h-64">
-        <Link href="/">
-          <Logo size={200} />
-        </Link>
+        <div>
+          <Link href="/">
+            <Logo size={180} />
+          </Link>
+          <p className="text-sm">Easy Tagalog © 2025. All rights reserved.</p>
+        </div>
 
-        <div className="flex flex-col gap-20 sm:flex-row">
+        <div className="flex flex-row space-x-8">
           {FOOTER_LINKS.map(({ header, pages }, i) => (
-            <div key={i}>
-              <h3 className="text-xl font-righteous">{header}</h3>
+            <div key={i} className="space-y-2">
+              <h3 className="font-bold tracking-tight">{header}</h3>
 
-              <div className="flex flex-col">
+              <div className="flex flex-col space-y-1">
                 {pages.map(({ text, url }, footerLinkIndex) => (
                   <Link
                     href={url}
@@ -64,10 +67,6 @@ export default function Footer() {
           ))}
         </div>
       </MaxWidthWrapper>
-
-      <p className="text-sm text-center p-2 bg-ph-yellow">
-        2024 Easy Tagalog. All rights reserved.
-      </p>
     </footer>
   );
 }
