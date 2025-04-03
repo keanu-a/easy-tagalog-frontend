@@ -2,10 +2,12 @@
 
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { Word } from '@/types/wordType';
+import DictionaryCard from '@/components/DictionaryCard';
 
 export default function Dictionary() {
   const searchParams = useSearchParams();
-  const query = searchParams.get('word') || '';
+  const query = searchParams.get('search') || '';
 
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,6 +28,7 @@ export default function Dictionary() {
           setResults([]);
         } else {
           setResults(data);
+          console.log(data);
         }
       } catch (err) {
         setError('Could not connect to the server.');
@@ -39,25 +42,18 @@ export default function Dictionary() {
   }, [query]);
 
   return (
-    <div className="max-w-2xl mx-auto mt-10 p-4">
+    <div className="max-w-2xl mx-auto mt-10 p-4 min-h-[70vh]">
       {loading && <p className="text-muted-foreground">Loading...</p>}
 
       {error && <p className="text-ph-red">{error}</p>}
 
-      {/* {!loading && !error && results && (
+      {!loading && !error && results && (
         <ul className="space-y-2">
-          {results.map((word: any) => (
-            <li key={word.id} className="p-4 border rounded-md shadow-sm">
-              <p className="font-bold">{word.tagalog}</p>
-              <p className="text-sm text-muted-foreground">
-                {word.translations?.[0]?.englishMeanings
-                  ?.map((e: any) => e.meaning)
-                  .join(', ')}
-              </p>
-            </li>
+          {results.map((word: Word, idx) => (
+            <DictionaryCard word={word} key={idx} />
           ))}
         </ul>
-      )} */}
+      )}
 
       {!loading && !error && query && results?.length === 0 && (
         <p className="text-muted-foreground">No results found for.</p>

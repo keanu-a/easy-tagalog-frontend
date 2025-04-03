@@ -1,24 +1,24 @@
 // TODO 10/24: Match frontend and backend types for all entities
 
 export enum Tense {
-  PAST = "past",
-  PRESENT = "present",
-  FUTURE = "future",
+  PAST = 'past',
+  PRESENT = 'present',
+  FUTURE = 'future',
 }
 
 export enum PartOfSpeech {
-  N = "noun",
-  V = "verb",
-  ADJ = "adjective",
-  ADV = "adverb",
-  PRON = "pronoun",
-  PREP = "preposition",
-  CONJ = "conjunction",
-  INTERJ = "interjection",
-  INTERR = "interrogative",
-  ART = "article",
-  PART = "particle",
-  PRE = "prefix",
+  N = 'NOUN',
+  V = 'VERN',
+  ADJ = 'ADJECTIVE',
+  ADV = 'ADVERB',
+  PRON = 'PRONOUN',
+  PREP = 'PREPOSITION',
+  CONJ = 'CONJUNCTION',
+  INTERJ = 'INTERJECTION',
+  INTERR = 'INTERROGATIVE',
+  ART = 'ARTICLE',
+  PART = 'PARTICLE',
+  PRE = 'PREFIX',
 }
 
 export interface Conjugation {
@@ -40,13 +40,17 @@ export interface English {
   meaning: string;
 }
 
+export interface Translation {
+  englishMeanings: English[];
+  partOfSpeech: PartOfSpeech;
+}
+
 export interface Word {
   uuid: string;
   tagalog: string;
-  english: English[];
+  translations: Translation[];
   root: string;
   accents?: number[];
-  partOfSpeech: PartOfSpeech;
   alternativeSpelling?: string;
   isIrregularVerb?: boolean;
   note?: string;

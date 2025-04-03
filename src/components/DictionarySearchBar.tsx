@@ -21,7 +21,7 @@ export default function DictionarySearchBar({
     const trimmed = inputText.trim();
     if (!trimmed) return;
 
-    router.push(`/dictionary?word=${encodeURIComponent(trimmed)}`);
+    router.push(`/dictionary?search=${encodeURIComponent(trimmed)}`);
   };
 
   return (

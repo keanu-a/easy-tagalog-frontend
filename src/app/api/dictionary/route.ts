@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
 
+// Validate environment variables
+const backendUrl = process.env.BACKEND_API_URL;
+if (!backendUrl) throw new Error('Missing environment variables: ');
+
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const query = searchParams.get('q');
@@ -13,17 +17,9 @@ export async function GET(req: Request) {
     );
   }
 
-  const backendUrl = process.env.BACKEND_API_URL;
-  if (!backendUrl) {
-    return NextResponse.json(
-      { error: 'Missing BACKEND_API_URL env var' },
-      { status: 500 }
-    );
-  }
-
   const apiUrl = `${
     process.env.BACKEND_API_URL
-  }/api/words/search/${encodeURIComponent(query)}`;
+  }/words/search/${encodeURIComponent(query)}`;
 
   try {
     const res = await fetch(apiUrl);
@@ -41,7 +37,7 @@ export async function GET(req: Request) {
     console.error('Dictionary proxy error:', err);
     return NextResponse.json(
       {
-        error: 'Failed to fetch from backend. Make sure the server is running.',
+        error: 'Internal Server Error',
       },
       { status: 500 }
     );

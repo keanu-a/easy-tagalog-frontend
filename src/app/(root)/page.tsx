@@ -44,8 +44,8 @@ export default function Home() {
         </div>
 
         <p className="text-md sm:text-lg text-muted-foreground max-w-xl mx-auto">
-          Learn Tagalog the modern way. Built for language learners who want
-          structure, clarity, and real examples.
+          Learn Tagalog in a modern and fun way. Built for language learners who
+          want structure, clarity, and real examples.
         </p>
 
         <div className="flex space-x-2 justify-center">
@@ -56,7 +56,7 @@ export default function Home() {
           </Link>
           <Link href="/">
             <Button variant="outline" className="rounded-full cursor-pointer">
-              Try Demo
+              Try Demo Lesson
             </Button>
           </Link>
         </div>
@@ -175,9 +175,22 @@ export default function Home() {
               what that means... Start today and impress your friends and
               family!
             </p>
-            <Button size="lg" className="rounded-full cursor-pointer">
-              Start Learning
-            </Button>
+
+            <div className="flex space-x-2">
+              <Link href="/">
+                <Button className="rounded-full cursor-pointer">
+                  Get Started
+                </Button>
+              </Link>
+              <Link href="/">
+                <Button
+                  variant="outline"
+                  className="rounded-full cursor-pointer"
+                >
+                  Try Demo Lesson
+                </Button>
+              </Link>
+            </div>
           </CardContent>
         </Card>
       </MaxWidthWrapper>
