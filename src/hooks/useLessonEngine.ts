@@ -171,7 +171,12 @@ export function useLessonEngine({
   useEffect(() => {
     setCurrentQuestion(state.contentIndex + state.questionIndex);
     setTotalQuestions(contentRef.current.length + questionsRef.current.length);
-  }, [state.contentIndex, state.questionIndex]);
+  }, [
+    state.contentIndex,
+    state.questionIndex,
+    setCurrentQuestion,
+    setTotalQuestions,
+  ]);
 
   const startLesson = () => dispatch({ type: ActionType.START });
 

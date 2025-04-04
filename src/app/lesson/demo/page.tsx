@@ -49,7 +49,7 @@ export default function DemoLessonPage() {
   // Set defaults on lesson startup
   useEffect(() => {
     setTotalQuestions(DEMO_LESSONS.length);
-  }, []);
+  }, [setTotalQuestions]);
 
   return (
     <>
