@@ -1,11 +1,7 @@
 import { ReactNode } from 'react';
 
-import MaxWidthWrapper from '@/components/MaxWidthWrapper';
+import LessonLayoutWrapper from '@/components/LessonLayoutWrapper';
 
 export default function LessonLayout({ children }: { children: ReactNode }) {
-  return (
-    <MaxWidthWrapper className="flex flex-col items-center">
-      {children}
-    </MaxWidthWrapper>
-  );
+  return <LessonLayoutWrapper>{children}</LessonLayoutWrapper>;
 }

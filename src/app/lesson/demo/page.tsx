@@ -1,15 +1,34 @@
 'use client';
 
-import { cn } from '@/lib/utils';
-import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
-import { Button } from '@/components/ui/button';
-import QuestionOption from '@/components/QuestionOption';
-import LessonAnswer from '@/components/LessonAnswer';
 import LessonReadyPrompt from '@/components/LessonReadyPrompt';
-import { LESSON_CONTENT, LESSON_QUESTIONS } from './constants';
-import { MiscQuestionType } from '@/types/miscLessonType';
+import { Button } from '@/components/ui/button';
+import { useLessonProgress } from '@/context/LessonProgressContext';
+import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
+import { cn } from '@/lib/utils';
+import { useEffect } from 'react';
 
-export default function AlphabetPage() {
+const LESSON_CONTENT = [{}];
+
+const LESSON_QUESTIONS = [{}];
+
+const DEMO_LESSONS = [
+  {
+    questionType: 'translate-word',
+    text: 'translate me',
+    answer: 'ako',
+    options: ['ako', 'ikaw'],
+  },
+  {
+    questionType: 'translate-phrase',
+    text: 'translate good morning',
+    answer: 'magandang umaga',
+    options: ['magandang umaga', 'magandang gabi'],
+  },
+];
+
+export default function DemoLessonPage() {
+  const { setTotalQuestions } = useLessonProgress();
+
   const {
     stage,
     contentIndex,
@@ -19,9 +38,15 @@ export default function AlphabetPage() {
     startLesson,
     checkAnswer,
     goToNext,
+    restartLesson,
     addToSelectedOptions,
     finishLesson,
   } = useLessonEngine({ content: LESSON_CONTENT, questions: LESSON_QUESTIONS });
+
+  // Set defaults on lesson startup
+  useEffect(() => {
+    setTotalQuestions(DEMO_LESSONS.length);
+  }, []);
 
   return (
     <>
@@ -32,7 +57,7 @@ export default function AlphabetPage() {
       {stage !== StageType.NOT_READY && (
         <div className="h-[60vh] px-4 flex flex-col justify-center items-center relative">
           {stage === StageType.CONTENT &&
-            LESSON_CONTENT.map(({ misc, content }, lessonContentIndex) => (
+            LESSON_CONTENT.map(({ alphabet, content }, lessonContentIndex) => (
               <div
                 key={lessonContentIndex}
                 className={`flex flex-col gap-4 items-center ${
@@ -42,7 +67,7 @@ export default function AlphabetPage() {
                 <h3 className="text-lg">{content}</h3>
 
                 <ul className="flex flex-wrap gap-2 p-2 justify-center">
-                  {misc.map((letter: string, letterIndex: number) => (
+                  {alphabet.map((letter: string, letterIndex) => (
                     <li
                       key={letterIndex}
                       className={cn(
@@ -65,7 +90,7 @@ export default function AlphabetPage() {
               answer={LESSON_QUESTIONS[questionIndex].answer}
               hasMultipleAnswers={
                 LESSON_QUESTIONS[questionIndex].questionType ===
-                MiscQuestionType.MULTIPLE_ANSWER
+                QuestionType.MULTIPLE_ANSWER
               }
             />
           )}
