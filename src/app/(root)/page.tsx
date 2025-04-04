@@ -165,7 +165,7 @@ export default function Home() {
           <CardContent className="space-y-8 p-4">
             <h1 className="text-4xl font-bold tracking-tight">
               Start Your{' '}
-              <span className="font-black bg-gradient-to-r from-ph-blue to-ph-red bg-clip-text text-transparent">
+              <span className="font-black bg-gradient-to-r from-ph-yellow via-ph-red to-ph-blue bg-clip-text text-transparent">
                 Tagalog
               </span>{' '}
               Journey Today
