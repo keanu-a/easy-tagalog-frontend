@@ -9,28 +9,24 @@ import {
   DialogDescription,
 } from './ui/dialog';
 import { Switch } from './ui/switch';
-import { useLessonProgress } from '@/context/LessonProgressContext';
 import { useRouter } from 'next/navigation';
 
 export default function LessonPause() {
   const router = useRouter();
 
-  const { setCurrentQuestion, setTotalQuestions } = useLessonProgress();
-
   // Sets question index back to start (0)
   const handleRestartLesson = () => {
-    setCurrentQuestion(0);
+    const confirmRestart = window.confirm('Are you sure you want to restart?');
+    if (confirmRestart) {
+      window.location.reload();
+    }
   };
 
   const handleQuitLesson = () => {
-    const confirmed = window.confirm(
+    const confirmQuit = window.confirm(
       'Are you sure you want to quit the lesson?'
     );
-    if (confirmed) {
-      // Lesson cleanup
-      setCurrentQuestion(0);
-      setTotalQuestions(1);
-
+    if (confirmQuit) {
       // Back to home page
       router.push('/');
     }

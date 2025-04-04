@@ -3,6 +3,7 @@
 import LessonProgressProvider from '@/context/LessonProgressContext';
 import MaxWidthWrapper from './MaxWidthWrapper';
 import LessonPause from './LessonPause';
+import LessonProgressBar from './LessonProgressBar';
 
 export default function LessonLayoutWrapper({
   children,
@@ -14,8 +15,7 @@ export default function LessonLayoutWrapper({
       <MaxWidthWrapper>
         <div className="flex space-x-2 items-center h-[15vh] mx-2">
           <LessonPause />
-
-          <p>Progress</p>
+          <LessonProgressBar />
         </div>
         <div className="h-[65vh] flex items-center justify-center">
           {children}

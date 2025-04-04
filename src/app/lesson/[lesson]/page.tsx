@@ -5,7 +5,7 @@ import { useReducer } from 'react';
 import { Button } from '@/components/ui/button';
 import LessonHeader from '@/components/LessonHeader';
 
-import ReadyPrompt from '@/components/ReadyPrompt';
+import ReadyPrompt from '@/components/LessonReadyPrompt';
 import QuestionOption from '@/components/QuestionOption';
 import LessonAnswer from '@/components/LessonAnswer';
 import { LESSON_QUESTIONS } from './constants';

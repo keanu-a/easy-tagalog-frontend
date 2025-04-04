@@ -31,7 +31,7 @@ export default function LessonProgressProvider({
 
   // Calculates progress based on user progress in the questions
   const progress = useMemo(
-    () => currentQuestion / totalQuestions,
+    () => (currentQuestion / totalQuestions) * 100,
     [currentQuestion, totalQuestions]
   );
 
