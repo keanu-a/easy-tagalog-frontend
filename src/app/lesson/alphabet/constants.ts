@@ -1,19 +1,8 @@
-export interface ILessonContent {
-  alphabet: string[];
-  content: string;
-}
-
-export enum QuestionType {
-  SINGLE_ANSWER = 'singleAnswer',
-  MULTIPLE_ANSWER = 'multipleAnswer',
-}
-
-export interface ILessonQuestion {
-  question: string;
-  options: string[];
-  answer: string[];
-  questionType: QuestionType;
-}
+import {
+  MiscLessonContent,
+  MiscLessonQuestion,
+  MiscQuestionType,
+} from '@/types/miscLessonType';
 
 export const FILIPINO_ALPHABET = [
   'A',
@@ -69,35 +58,35 @@ export const ABAKADA_ALPHABET = [
   'Y',
 ];
 
-export const LESSON_CONTENT = [
+export const LESSON_CONTENT: MiscLessonContent[] = [
   {
-    alphabet: FILIPINO_ALPHABET,
+    misc: FILIPINO_ALPHABET,
     content:
       'The Filipino alphabet contains all letters from the english alphabet with the addition of 2 letters.',
   },
   {
-    alphabet: [FILIPINO_ALPHABET[14], FILIPINO_ALPHABET[15]],
+    misc: [FILIPINO_ALPHABET[14], FILIPINO_ALPHABET[15]],
     content:
       'Since Tagalog uses some spanish words, you will see the letter "Ñ" comes from the spanish alphabet and "NG" is a unique Filipino/Tagalog letter.',
   },
   {
-    alphabet: ABAKADA_ALPHABET,
+    misc: ABAKADA_ALPHABET,
     content:
       'The modern tagalog alphabet (also known as the abakada) follows a different order with some missing english letters.',
   },
 ];
 
-export const LESSON_QUESTIONS = [
+export const LESSON_QUESTIONS: MiscLessonQuestion[] = [
   {
     question: 'Which letter came from spain?',
     options: ['Ñ', 'X', 'G', 'R'],
     answer: ['Ñ'],
-    questionType: QuestionType.SINGLE_ANSWER,
+    questionType: MiscQuestionType.SINGLE_ANSWER,
   },
   {
     question: 'Which two letters are not in the english alphabet?',
     options: ['Ñ', 'NG', 'A', 'L'],
     answer: ['Ñ', 'NG'],
-    questionType: QuestionType.MULTIPLE_ANSWER,
+    questionType: MiscQuestionType.MULTIPLE_ANSWER,
   },
 ];
