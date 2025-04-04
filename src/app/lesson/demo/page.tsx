@@ -1,15 +1,18 @@
 'use client';
 
+import LessonAnswer from '@/components/LessonAnswer';
 import LessonReadyPrompt from '@/components/LessonReadyPrompt';
+import QuestionOption from '@/components/QuestionOption';
 import { Button } from '@/components/ui/button';
 import { useLessonProgress } from '@/context/LessonProgressContext';
 import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
 import { cn } from '@/lib/utils';
+import { MiscLessonContent, MiscLessonQuestion } from '@/types/miscLessonType';
 import { useEffect } from 'react';
 
-const LESSON_CONTENT = [{}];
+const LESSON_CONTENT: MiscLessonContent[] = [];
 
-const LESSON_QUESTIONS = [{}];
+const LESSON_QUESTIONS: MiscLessonQuestion[] = [];
 
 const DEMO_LESSONS = [
   {
@@ -56,7 +59,7 @@ export default function DemoLessonPage() {
 
       {stage !== StageType.NOT_READY && (
         <div className="h-[60vh] px-4 flex flex-col justify-center items-center relative">
-          {stage === StageType.CONTENT &&
+          {/* {stage === StageType.CONTENT &&
             LESSON_CONTENT.map(({ alphabet, content }, lessonContentIndex) => (
               <div
                 key={lessonContentIndex}
@@ -82,9 +85,9 @@ export default function DemoLessonPage() {
                   ))}
                 </ul>
               </div>
-            ))}
+            ))} */}
 
-          {stage === StageType.CHECKED && (
+          {/* {stage === StageType.CHECKED && (
             <LessonAnswer
               isUserCorrect={isUserCorrect}
               answer={LESSON_QUESTIONS[questionIndex].answer}
@@ -93,7 +96,7 @@ export default function DemoLessonPage() {
                 QuestionType.MULTIPLE_ANSWER
               }
             />
-          )}
+          )} */}
 
           {(stage === StageType.ANSWERING || stage === StageType.CHECKED) &&
             LESSON_QUESTIONS.map(
