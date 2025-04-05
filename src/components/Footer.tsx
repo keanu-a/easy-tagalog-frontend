@@ -55,7 +55,8 @@ export default function Footer() {
               <div className="flex flex-col space-y-1">
                 {pages.map(({ text, url }, footerLinkIndex) => (
                   <Link
-                    href={url}
+                    href="/"
+                    // href={url}
                     key={footerLinkIndex}
                     className="transition-all hover:text-ph-red"
                   >

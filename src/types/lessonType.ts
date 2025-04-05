@@ -1,27 +1,36 @@
-export enum QuestionType {
-  TRANSLATE_WORD = "translate word",
-  TRANSLATE_PHRASE = "translate phrase",
-  BUILD_PHRASE = "build phrase",
+import { Phrase } from './phraseType';
+import { Word } from './wordType';
+
+export enum ContentType {
+  TEXT = 'text',
+  AUDIO = 'audio',
+  EXAMPLE = 'example',
 }
 
-export interface QuestionEntity {
-  uuid: string;
-  tagalog: string;
+export interface LessonContent {
+  type: ContentType;
+  content: string;
+  extras?: any;
 }
 
-export interface Question {
-  type: QuestionType;
-  word?: QuestionEntity;
-  phrase?: QuestionEntity;
-  wordOptions?: QuestionEntity[];
-  phraseOptions?: QuestionEntity[];
-  correctAnswer?: string;
-  correctAnswerOrder?: string[];
-  helpInfo?: string;
+interface TranslateWordQuestion {
+  type: 'translateWord';
+  prompt: string;
+  options: Word[];
+  answer: string;
 }
+
+interface TranslatePhraseQuestion {
+  type: 'translatePhrase';
+  prompt: string;
+  options: Phrase[];
+  answer: string;
+}
+
+export type LessonQuestion = TranslateWordQuestion | TranslatePhraseQuestion;
 
 export interface Lesson {
   uuid: string;
   title: string;
-  questions: Question[];
+  questions: LessonQuestion[];
 }

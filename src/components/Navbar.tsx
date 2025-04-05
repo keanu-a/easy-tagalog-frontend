@@ -11,7 +11,7 @@ export default function Navbar() {
   const user = null;
 
   return (
-    <header className="relative h-[10vh]">
+    <header className="relative h-[10vh] p-4 md:p-0">
       <MaxWidthWrapper className="h-full">
         <nav className="h-full flex items-center justify-between">
           <div className="flex items-center gap-4">

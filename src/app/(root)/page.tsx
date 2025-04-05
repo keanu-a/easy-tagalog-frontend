@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -11,6 +12,7 @@ import {
   SquareStack,
 } from 'lucide-react';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
+import { cn } from '@/lib/utils';
 
 const ADDITIONAL_INFO = [
   {
@@ -31,36 +33,98 @@ const ADDITIONAL_INFO = [
   },
 ];
 
+const floatingSuns = [
+  {
+    top: 'top-10',
+    right: 'right-0',
+    width: 100,
+    delay: 'delay-200',
+    hidden: '',
+  },
+  {
+    top: 'top-0 md:top-8',
+    left: 'left-0 md:left-30',
+    width: 160,
+    delay: 'delay-0',
+    hidden: 'hidden md:block',
+  },
+  {
+    bottom: 'bottom-15',
+    left: 'left-10 md:left-50',
+    width: 70,
+    delay: 'delay-200',
+    hidden: '',
+  },
+  {
+    top: 'top-8 md:top-50',
+    left: 'left-0',
+    width: 40,
+    delay: 'delay-1000',
+    hidden: '',
+  },
+
+  {
+    bottom: 'bottom-0 md:bottom-20',
+    right: 'right-0',
+    width: 130,
+    delay: 'delay-1000',
+    hidden: '',
+  },
+];
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground px-4 pb-24">
       {/* Hero Section */}
-      <section className="flex flex-col items-center justify-center text-center space-y-6 min-h-[80vh]">
-        <div className="flex flex-col text-md sm:text-lg">
-          The easiest way to learn
-          <span className="text-6xl sm:text-9xl font-black tracking-tighter bg-gradient-to-r from-ph-yellow via-ph-red to-ph-blue bg-clip-text text-transparent">
-            TAGALOG
-          </span>
-        </div>
+      <MaxWidthWrapper>
+        <section className="relative flex flex-col items-center justify-center text-center space-y-6 min-h-[80vh]">
+          {floatingSuns.map((sun, index) => (
+            <Image
+              key={index}
+              className={cn(
+                'absolute',
+                sun.top ?? '',
+                sun.bottom ?? '',
+                sun.left ?? '',
+                sun.right ?? '',
+                'animate-spin-float',
+                sun.delay,
+                sun.hidden ?? '',
+                'opacity-50'
+              )}
+              src="/images/sun.png"
+              width={sun.width}
+              height={sun.width}
+              alt="Floating Filipino sun"
+            />
+          ))}
 
-        <p className="text-md sm:text-lg text-muted-foreground max-w-xl mx-auto">
-          Learn Tagalog in a modern and fun way. Built for language learners who
-          want structure, clarity, and real examples.
-        </p>
+          <div className="flex flex-col text-md sm:text-lg">
+            COMING SOON. The easiest way to learn
+            <span className="text-6xl sm:text-9xl font-black tracking-tighter bg-gradient-to-r from-ph-yellow via-ph-red to-ph-blue bg-clip-text text-transparent">
+              TAGALOG
+            </span>
+          </div>
 
-        <div className="flex space-x-2 justify-center">
-          <Link href="/">
-            <Button className="rounded-full cursor-pointer">
-              Start Learning
-            </Button>
-          </Link>
-          <Link href="/lesson/demo">
-            <Button variant="outline" className="rounded-full cursor-pointer">
-              Try Demo Lesson
-            </Button>
-          </Link>
-        </div>
-      </section>
+          <p className="text-md sm:text-lg text-muted-foreground max-w-xl mx-auto">
+            Learn Tagalog in a modern and fun way. Built for language learners
+            who want structure, clarity, and real examples.
+          </p>
+
+          <div className="flex space-x-2 justify-center">
+            <Link href="/">
+              <Button className="rounded-full cursor-pointer">
+                Start Learning
+              </Button>
+            </Link>
+            <Link href="/">
+              <Button variant="outline" className="rounded-full cursor-pointer">
+                Try Demo Lesson
+              </Button>
+            </Link>
+          </div>
+        </section>
+      </MaxWidthWrapper>
 
       {/* Features Section */}
       <section className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl w-full min-h-[80vh] px-4 mx-auto">
@@ -68,9 +132,9 @@ export default function Home() {
         <Card className="col-span-1 row-span-2 hover:shadow-lg transition">
           <CardContent className="h-full p-6 flex flex-col items-center justify-center text-center space-y-3">
             <Search className="w-8 h-8 text-primary" />
-            <h3 className="text-2xl font-semibold">Smart Dictionary</h3>
+            <h3 className="text-2xl font-semibold">Lesson-Based Learning</h3>
             <p className="text-muted-foreground text-sm max-w-sm">
-              Look up Tagalog words and see real example phrases and meanings.
+              Structured lessons that build vocabulary and grammar naturally.{' '}
             </p>
           </CardContent>
         </Card>
@@ -90,9 +154,9 @@ export default function Home() {
         <Card className="hover:shadow-md transition">
           <CardContent className="h-full p-6 flex flex-col items-center justify-center text-center space-y-3">
             <BookOpen className="w-6 h-6 text-primary" />
-            <h3 className="text-lg font-semibold">Lesson-Based Learning</h3>
+            <h3 className="text-lg font-semibold">Smart Dictionary</h3>
             <p className="text-muted-foreground text-sm">
-              Structured lessons that build vocabulary and grammar naturally.
+              Look up Tagalog words and see real example phrases and meanings.
             </p>
           </CardContent>
         </Card>
@@ -171,9 +235,8 @@ export default function Home() {
               Journey Today
             </h1>
             <p className="text-muted-foreground">
-              Handa ka na ba? Maybe if you started yesterday, you would know
-              what that means... Start today and impress your friends and
-              family!
+              Handa ka na ba? Find out what that means by starting today.
+              Impress your friends and family!
             </p>
 
             <div className="flex space-x-2">
