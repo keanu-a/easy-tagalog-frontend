@@ -1,5 +1,3 @@
-// TODO 10/24: Match frontend and backend types for all entities
-
 export enum Tense {
   PAST = 'past',
   PRESENT = 'present',
@@ -25,9 +23,9 @@ export interface Conjugation {
   tagalog: string;
   root: string;
   accents: number[];
-  audioUrl?: string;
   english: string;
   tense: Tense;
+  audioUrl?: string;
 }
 
 export interface LinkedWord {
