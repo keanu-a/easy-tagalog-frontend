@@ -76,7 +76,7 @@
   --color-ph-blue: #0032A0;
   --color-ph-red: #BF0D3E;
   --color-ph-yellow: #FED141;
-  --color-enable-correct: oklch(0.696 0.17 162.48);
+  --color-enable-correct: oklch(0.5 0.17 162.48);
 }
 
 @theme inline {

@@ -5,11 +5,11 @@ import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
 import { LessonContent, LessonQuestion } from '@/types/lessonType';
-import LessonAnswer from '@/components/LessonAnswer';
 import LessonReadyPrompt from '@/components/LessonReadyPrompt';
 import { Button } from '@/components/ui/button';
 import { useLessonProgress } from '@/context/LessonProgressContext';
 import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
+import { ArrowRight, CircleCheck, CircleX } from 'lucide-react';
 
 export default function DemoLessonPage() {
   const [title, setTitle] = useState('');
@@ -44,7 +44,7 @@ export default function DemoLessonPage() {
       setLoading(true);
       try {
         const res = await fetch(
-          '/api/lessons/c4df94e3-e41b-45ad-9dfb-ea49cf82a156'
+          '/api/lessons/fa2deee5-4ef5-49c7-b3b4-7a7d574eda52'
         );
         const data = await res.json();
 
@@ -83,54 +83,85 @@ export default function DemoLessonPage() {
     }
   };
 
-  // Renders correct/incorrect answer box after answering
-  const renderAnswer = () =>
-    stage === StageType.CHECKED && currentQuestion ? (
-      <LessonAnswer
-        isUserCorrect={isUserCorrect}
-        answer={currentQuestion.options.find(
-          (op) => op.uuid === currentQuestion.answer
+  const renderPrompt = () =>
+    (stage === StageType.ANSWERING || stage === StageType.CHECKED) &&
+    currentQuestion ? (
+      <div
+        className={cn(
+          'relative text-center w-full py-6 rounded-xl transition-all',
+          stage === StageType.CHECKED &&
+            isUserCorrect &&
+            'bg-enable-correct/20',
+          stage === StageType.CHECKED &&
+            isUserCorrect === false &&
+            'bg-ph-red/20'
         )}
-      />
+      >
+        <span className="absolute left-3 top-3">
+          {stage === StageType.CHECKED && isUserCorrect && (
+            <CircleCheck
+              size={32}
+              className="text-enable-correct"
+              aria-label="Correct answer"
+            />
+          )}
+          {stage === StageType.CHECKED && !isUserCorrect && (
+            <CircleX
+              size={32}
+              className="text-ph-red"
+              aria-label="Incorrect answer"
+            />
+          )}
+        </span>
+
+        <h3 className="text-muted-foreground text-lg">Translate to Tagalog:</h3>
+        <h2 className="text-2xl">{currentQuestion.prompt}</h2>
+
+        {stage === StageType.CHECKED && (
+          <p className="mt-4 text-xl font-semibold">
+            {
+              currentQuestion.options.find(
+                (op) => op.uuid === currentQuestion.answer
+              )?.tagalog
+            }
+          </p>
+        )}
+      </div>
     ) : null;
 
   // Renders prompt/question
-  const renderQuestion = () =>
+  const renderOptions = () =>
     (stage === StageType.ANSWERING || stage === StageType.CHECKED) &&
     currentQuestion ? (
-      <div>
-        <h3>{currentQuestion.prompt}</h3>
-        <h3>Translate</h3>
-        <div className="flex flex-wrap gap-4 justify-center mt-4">
-          {currentQuestion.options.map((option, idx) => (
-            <Button
-              key={idx}
-              className={cn(
-                'text-black p-4 text-lg bg-ph-yellow rounded-md',
-                'hover:bg-ph-blue hover:text-primary-foreground transition-all hover:-translate-y-1 hover:shadow-md cursor-pointer',
-                selectedOptions.includes(idx) &&
-                  'bg-ph-blue text-primary-foreground -translate-y-1'
-              )}
-              onClick={() => clickedOption(idx, currentQuestion)}
-              disabled={stage === StageType.CHECKED}
-            >
-              {option.tagalog}
-            </Button>
-          ))}
-        </div>
+      <div className="flex flex-col gap-4 justify-center mt-10">
+        {currentQuestion.options.map((option, idx) => (
+          <Button
+            key={idx}
+            className={cn(
+              'w-[90vw] md:w-full text-black p-4 text-lg bg-ph-yellow rounded-md',
+              'hover:bg-ph-blue hover:text-primary-foreground transition-all hover:-translate-y-1 hover:shadow-md cursor-pointer',
+              selectedOptions.includes(idx) &&
+                'bg-ph-blue text-primary-foreground -translate-y-1'
+            )}
+            onClick={() => clickedOption(idx, currentQuestion)}
+            disabled={stage === StageType.CHECKED}
+          >
+            {option.tagalog}
+          </Button>
+        ))}
       </div>
     ) : null;
 
   // Renders check and next buttons
   const renderBottomButtons = () => (
-    <div className="mt-20 absolute bottom-0 text-lg">
+    <div className="flex items-center h-[15vh] text-lg">
       {(stage === StageType.CONTENT || stage === StageType.CHECKED) && (
         <Button
           onClick={goToNext}
           className={cn(
-            'cursor-pointer',
-            isUserCorrect && 'bg-green-700 hover:bg-green-600',
-            isUserCorrect === false && 'bg-red-700 hover:bg-red-600'
+            'cursor-pointer w-[90vw] md:w-32',
+            isUserCorrect && 'bg-enable-correct hover:bg-enable-correct/85',
+            isUserCorrect === false && 'bg-ph-red hover:bg-ph-red/85'
           )}
         >
           Next
@@ -139,7 +170,7 @@ export default function DemoLessonPage() {
 
       {stage === StageType.ANSWERING && (
         <Button
-          className="cursor-pointer"
+          className="cursor-pointer w-[90vw] md:w-32"
           onClick={() => checkAnswer(currentQuestion)}
           disabled={selectedOptions.length <= 0}
         >
@@ -179,9 +210,9 @@ export default function DemoLessonPage() {
 
   // Main lesson render
   return (
-    <div className="h-[60vh] px-4 flex flex-col justify-center items-center relative">
-      {renderAnswer()}
-      {renderQuestion()}
+    <div className="h-full w-full max-w-[40rem] px-4 flex flex-col justify-between items-center">
+      {renderPrompt()}
+      {renderOptions()}
       {renderBottomButtons()}
     </div>
   );
