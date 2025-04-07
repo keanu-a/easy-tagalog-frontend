@@ -17,7 +17,7 @@ export default function LessonLayoutWrapper({
           <LessonPause />
           <LessonProgressBar />
         </div>
-        <div className="h-[65vh] flex items-center justify-center">
+        <div className="h-[85vh] flex items-center justify-center">
           {children}
         </div>
       </MaxWidthWrapper>

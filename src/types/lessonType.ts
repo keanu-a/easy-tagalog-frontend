@@ -7,6 +7,12 @@ export enum ContentType {
   EXAMPLE = 'example',
 }
 
+export enum QuestionType {
+  TRANSLATE_WORD = 'translateWord',
+  TRANSLATE_PHRASE = 'translatePhrase',
+  BUILD_PHRASE = 'buildPhrase',
+}
+
 export interface LessonContent {
   type: ContentType;
   content: string;
@@ -14,17 +20,17 @@ export interface LessonContent {
 }
 
 interface TranslateWordQuestion {
-  type: 'translateWord';
   prompt: string;
   options: Word[];
-  answer: string;
+  answer: string; // UUID
+  type: QuestionType;
 }
 
 interface TranslatePhraseQuestion {
-  type: 'translatePhrase';
   prompt: string;
   options: Phrase[];
-  answer: string;
+  answer: string; // UUID
+  type: QuestionType;
 }
 
 export type LessonQuestion = TranslateWordQuestion | TranslatePhraseQuestion;
@@ -32,5 +38,6 @@ export type LessonQuestion = TranslateWordQuestion | TranslatePhraseQuestion;
 export interface Lesson {
   uuid: string;
   title: string;
+  content?: LessonContent[];
   questions: LessonQuestion[];
 }

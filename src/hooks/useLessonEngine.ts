@@ -1,19 +1,12 @@
-import { useEffect, useReducer, useRef } from 'react';
+import { useReducer } from 'react';
 import { useLessonProgress } from '@/context/LessonProgressContext';
-import {
-  MiscLessonContent,
-  MiscLessonQuestion,
-  MiscQuestionType,
-} from '@/types/miscLessonType';
-
-const DEFAULT_START_INDEX = 0;
+import { LessonQuestion, QuestionType } from '@/types/lessonType';
 
 enum ActionType {
   START = 'start',
   CLICKED = 'clicked',
   CHECK = 'check',
-  CONTENT_NEXT = 'content next',
-  QUESTION_NEXT = 'question next',
+  NEXT = 'next',
   RESTART = 'restart',
 }
 
@@ -25,36 +18,30 @@ export enum StageType {
   FINISHED = 'finished',
 }
 
-type ClickedPayload = { index: number; question: MiscLessonQuestion };
-type CheckPayload = { question: MiscLessonQuestion };
-type NextPayload = { lengthQuestions: number; lengthContent: number };
-
 type Action =
   | { type: ActionType.START }
   | {
       type: ActionType.CLICKED;
-      payload: ClickedPayload;
-    } // Only clicked will need a payload
+      payload: { index: number; question: LessonQuestion };
+    }
   | {
       type: ActionType.CHECK;
-      payload: CheckPayload;
+      payload: { question: LessonQuestion };
     }
-  | { type: ActionType.CONTENT_NEXT; payload: NextPayload }
-  | { type: ActionType.QUESTION_NEXT; payload: NextPayload }
+  | {
+      type: ActionType.NEXT;
+      payload: { isFinalContent: boolean; isFinalQuestion: boolean };
+    }
   | { type: ActionType.RESTART };
 
 interface State {
   stage: StageType;
-  contentIndex: number;
-  questionIndex: number;
   selectedOptions: number[];
   isUserCorrect: boolean | null;
 }
 
 const INITIAL_STATE: State = {
   stage: StageType.NOT_READY,
-  contentIndex: DEFAULT_START_INDEX,
-  questionIndex: DEFAULT_START_INDEX,
   selectedOptions: [],
   isUserCorrect: null,
 };
@@ -64,20 +51,23 @@ const reducer = (state: State, action: Action): State => {
     case ActionType.START:
       return {
         ...state,
-        stage: StageType.CONTENT,
+        stage: StageType.ANSWERING,
       };
 
     case ActionType.CLICKED: {
       const { question, index } = action.payload;
 
-      if (question.questionType === MiscQuestionType.SINGLE_ANSWER) {
+      if (
+        question.type === QuestionType.TRANSLATE_WORD ||
+        question.type === QuestionType.TRANSLATE_PHRASE
+      ) {
         return {
           ...state,
           selectedOptions: [index],
         };
       }
 
-      if (question.questionType === MiscQuestionType.MULTIPLE_ANSWER) {
+      if (question.type === QuestionType.BUILD_PHRASE) {
         // First check to see if the option was already selected
         const isAlreadySelected = state.selectedOptions.includes(index);
 
@@ -94,22 +84,14 @@ const reducer = (state: State, action: Action): State => {
       const { question } = action.payload;
       let currentState = state;
 
-      if (question.questionType === MiscQuestionType.SINGLE_ANSWER) {
+      if (
+        question.type === QuestionType.TRANSLATE_WORD ||
+        question.type === QuestionType.TRANSLATE_PHRASE
+      ) {
         currentState = {
           ...state,
           isUserCorrect:
-            question.options[state.selectedOptions[0]] === question.answer[0],
-        };
-      }
-
-      if (question.questionType === MiscQuestionType.MULTIPLE_ANSWER) {
-        // First goes through every option the user has selected
-        // Then checks the answer to make sure the selected option is apart of it
-        currentState = {
-          ...state,
-          isUserCorrect: state.selectedOptions.every((index) =>
-            question.answer.includes(question.options[index])
-          ),
+            question.options[state.selectedOptions[0]].uuid === question.answer,
         };
       }
 
@@ -119,31 +101,26 @@ const reducer = (state: State, action: Action): State => {
       };
     }
 
-    case ActionType.CONTENT_NEXT:
-      const { lengthContent } = action.payload;
+    case ActionType.NEXT: {
+      const { isFinalContent, isFinalQuestion } = action.payload;
+
+      let nextStage = StageType.CONTENT;
+
+      if (isFinalContent && !isFinalQuestion) {
+        nextStage = StageType.ANSWERING;
+      }
+
+      if (isFinalQuestion) {
+        nextStage = StageType.FINISHED;
+      }
 
       return {
         ...state,
-        contentIndex: state.contentIndex + 1,
-        stage:
-          state.contentIndex === lengthContent - 1
-            ? StageType.ANSWERING
-            : state.stage,
-      };
-
-    case ActionType.QUESTION_NEXT:
-      const { lengthQuestions } = action.payload;
-
-      return {
-        ...state,
-        questionIndex: state.questionIndex + 1,
-        isUserCorrect: null,
         selectedOptions: [],
-        stage:
-          state.questionIndex === lengthQuestions - 1
-            ? StageType.FINISHED
-            : StageType.ANSWERING,
+        isUserCorrect: null,
+        stage: nextStage,
       };
+    }
 
     case ActionType.RESTART:
       return INITIAL_STATE;
@@ -153,83 +130,47 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-export function useLessonEngine({
-  content,
-  questions,
-}: {
-  content: MiscLessonContent[];
-  questions: MiscLessonQuestion[];
-}) {
+export function useLessonEngine() {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const { setCurrentQuestion, setTotalQuestions } = useLessonProgress();
-
-  const contentRef = useRef(content);
-  const questionsRef = useRef(questions);
-
-  const currentQuestion = questionsRef.current[state.questionIndex];
-
-  useEffect(() => {
-    setCurrentQuestion(state.contentIndex + state.questionIndex);
-    setTotalQuestions(contentRef.current.length + questionsRef.current.length);
-  }, [
-    state.contentIndex,
-    state.questionIndex,
-    setCurrentQuestion,
-    setTotalQuestions,
-  ]);
+  const { setCurrentQuestion } = useLessonProgress();
 
   const startLesson = () => dispatch({ type: ActionType.START });
 
-  const checkAnswer = () => {
+  const clickedOption = (index: number, question: LessonQuestion) => {
     dispatch({
-      type: ActionType.CHECK,
-      payload: {
-        question: currentQuestion,
-      },
+      type: ActionType.CLICKED,
+      payload: { index, question },
     });
   };
 
-  const goToNext = () =>
-    state.stage === StageType.CONTENT
-      ? dispatch({
-          type: ActionType.CONTENT_NEXT,
-          payload: {
-            lengthContent: contentRef.current.length,
-            lengthQuestions: questionsRef.current.length,
-          },
-        })
-      : dispatch({
-          type: ActionType.QUESTION_NEXT,
-          payload: {
-            lengthContent: contentRef.current.length,
-            lengthQuestions: questionsRef.current.length,
-          },
-        });
+  const checkAnswer = (question: LessonQuestion) => {
+    dispatch({
+      type: ActionType.CHECK,
+      payload: { question },
+    });
+  };
+
+  const goToNextStage = (isFinalContent: boolean, isFinalQuestion: boolean) =>
+    dispatch({
+      type: ActionType.NEXT,
+      payload: { isFinalContent, isFinalQuestion },
+    });
 
   const restartLesson = () => {
     dispatch({ type: ActionType.RESTART });
     setCurrentQuestion(0);
   };
 
-  const addToSelectedOptions = (index: number) => {
-    dispatch({
-      type: ActionType.CLICKED,
-      payload: {
-        index,
-        question: currentQuestion,
-      },
-    });
+  const finishLesson = () => {
+    // Save progress?
   };
-
-  const finishLesson = () => {};
 
   return {
     ...state,
     startLesson,
+    clickedOption,
     checkAnswer,
-    goToNext,
-    restartLesson,
-    addToSelectedOptions,
+    goToNextStage,
     finishLesson,
   };
 }
