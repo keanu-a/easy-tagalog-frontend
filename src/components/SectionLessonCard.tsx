@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Progress } from './ui/progress';
 import { BadgeCheck } from 'lucide-react';
 import { buttonVariants } from './ui/button';
 
@@ -29,7 +28,6 @@ export default function SectionLessonCard({
       <p className={sectionLessonCompleted ? 'text-green-500 font-medium' : ''}>
         {sectionLessonCompleted ? 'COMPLETED' : progress + '%'}
       </p>
-      <Progress value={progress} />
 
       <div className="flex justify-center pt-4">
         <Link
