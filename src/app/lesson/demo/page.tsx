@@ -1,14 +1,15 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+
+import { cn } from '@/lib/utils';
+import { LessonContent, LessonQuestion } from '@/types/lessonType';
 import LessonAnswer from '@/components/LessonAnswer';
 import LessonReadyPrompt from '@/components/LessonReadyPrompt';
 import { Button } from '@/components/ui/button';
 import { useLessonProgress } from '@/context/LessonProgressContext';
 import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
-import { cn } from '@/lib/utils';
-import { LessonContent, LessonQuestion } from '@/types/lessonType';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
 export default function DemoLessonPage() {
   const [title, setTitle] = useState('');
@@ -20,10 +21,10 @@ export default function DemoLessonPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const { setTotalQuestions, setCurrentQuestion } = useLessonProgress();
+
   const currentQuestion = questions[questionIndex];
   const currentContent = content[contentIndex];
-
-  const { setTotalQuestions, setCurrentQuestion } = useLessonProgress();
 
   // Setting lesson engine state machine
   const {
@@ -65,6 +66,7 @@ export default function DemoLessonPage() {
     fetchDemoLesson();
   }, [setTotalQuestions]);
 
+  // Handles going to next page
   const goToNext = () => {
     const isFinalContent = contentIndex + 1 === content.length;
     const isFinalQuestion = questionIndex + 1 === questions.length;
@@ -81,6 +83,7 @@ export default function DemoLessonPage() {
     }
   };
 
+  // Renders correct/incorrect answer box after answering
   const renderAnswer = () =>
     stage === StageType.CHECKED && currentQuestion ? (
       <LessonAnswer
@@ -91,6 +94,7 @@ export default function DemoLessonPage() {
       />
     ) : null;
 
+  // Renders prompt/question
   const renderQuestion = () =>
     (stage === StageType.ANSWERING || stage === StageType.CHECKED) &&
     currentQuestion ? (
@@ -117,6 +121,7 @@ export default function DemoLessonPage() {
       </div>
     ) : null;
 
+  // Renders check and next buttons
   const renderBottomButtons = () => (
     <div className="mt-20 absolute bottom-0 text-lg">
       {(stage === StageType.CONTENT || stage === StageType.CHECKED) && (
@@ -158,8 +163,11 @@ export default function DemoLessonPage() {
   // Finish page render
   if (stage === StageType.FINISHED) {
     return (
-      <div className="flex flex-col items-center space-y-4">
-        <div>Nice! You finished this lesson!</div>
+      <div className="flex flex-col items-center space-y-4 p-4">
+        <div>
+          Nice, you finished this lesson! Thanks for trying the demo and I hope
+          you enjoyed!
+        </div>
         <Link href="/">
           <Button className="cursor-pointer" onClick={finishLesson}>
             Finish
