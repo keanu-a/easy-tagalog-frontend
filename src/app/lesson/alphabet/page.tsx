@@ -3,7 +3,7 @@
 import { cn } from '@/lib/utils';
 import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
 import { Button } from '@/components/ui/button';
-import QuestionOption from '@/components/QuestionOption';
+import QuestionOption from '@/components/LessonOption';
 import LessonAnswer from '@/components/LessonAnswer';
 import LessonReadyPrompt from '@/components/LessonReadyPrompt';
 import { LESSON_CONTENT, LESSON_QUESTIONS } from './constants';

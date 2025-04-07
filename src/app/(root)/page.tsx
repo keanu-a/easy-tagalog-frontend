@@ -117,7 +117,7 @@ export default function Home() {
                 Start Learning
               </Button>
             </Link>
-            <Link href="/">
+            <Link href="/lesson/demo">
               <Button variant="outline" className="rounded-full cursor-pointer">
                 Try Demo Lesson
               </Button>

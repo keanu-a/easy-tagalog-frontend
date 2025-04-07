@@ -10,6 +10,7 @@ export enum ContentType {
 export enum QuestionType {
   TRANSLATE_WORD = 'translateWord',
   TRANSLATE_PHRASE = 'translatePhrase',
+  BUILD_PHRASE = 'buildPhrase',
 }
 
 export interface LessonContent {
@@ -37,5 +38,6 @@ export type LessonQuestion = TranslateWordQuestion | TranslatePhraseQuestion;
 export interface Lesson {
   uuid: string;
   title: string;
+  content?: LessonContent[];
   questions: LessonQuestion[];
 }
