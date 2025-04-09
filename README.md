@@ -2,9 +2,10 @@
 
 > A full-stack application that teaches Tagalog and Filipino culture
 
-## Visit the live site
+## Visit
 
-[Easy Tagalog](https://easytagalog.com/)
+- Live site: [Easy Tagalog](https://easytagalog.com/)
+- Frontend repo: [Frontend Repo](https://github.com/keanu-a/easy-tagalog-frontend)
 
 ---
 
@@ -18,7 +19,8 @@ As a Filipino American that wasn't raised speaking Tagalog, I have always wanted
 
 In early development, it actually started off as a MERN stack since that was what I was most comfortable with. However, I knew if this was an app I wanted used by thousands of users, I needed something more robust. I switched from a MERN stack to a type backend like Java Spring Boot and an optimized frontend framework like Next.js. I also decided to switch from a NoSQL database like MongoDB to PostgreSQL to have better relationships between all my objects (words, phrases, lessons). Although the switch led to a longer development time, I have learned a lot and enjoyed the process.
 
-- **Frontend**: Next.js, Shadcn UI
+- **Frontend**: Next.js, TypeScript, Shadcn UI
+- **Backend**: Spring Boot, Java
 - **Styling**: Tailwind CSS
 - **Deployment**: Vercel, Render
 - **Database**: AWS, Supabase
