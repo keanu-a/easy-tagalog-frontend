@@ -19,7 +19,7 @@ export async function GET(req: Request) {
 
   const apiUrl = `${
     process.env.BACKEND_API_URL
-  }/words/search/${encodeURIComponent(query)}`;
+  }/api/words/search/${encodeURIComponent(query)}`;
 
   try {
     const res = await fetch(apiUrl);
