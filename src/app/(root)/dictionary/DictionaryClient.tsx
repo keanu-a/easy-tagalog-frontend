@@ -56,7 +56,10 @@ export default function DictionaryClient() {
       )}
 
       {!loading && !error && query && results?.length === 0 && (
-        <p className="text-muted-foreground">No results found for.</p>
+        <p className="text-muted-foreground">
+          No results found for{' '}
+          <span className="font-bold text-ph-red">{query}</span>
+        </p>
       )}
     </div>
   );
