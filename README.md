@@ -1,6 +1,6 @@
 # 🔆 Easy Tagalog
 
-> A full-stack application that teaches Tagalog and Filipino culture
+> Easy Tagalog is a full-stack language learning platform designed to help users learn Tagalog through interactive lessons. Built with Next.js on the frontend and Java Spring Boot for the backend. Easy Tagalog aims to make Tagalog language education accessible and engaging for learners worldwide.
 
 ## Visit
 
