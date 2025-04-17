@@ -19,7 +19,6 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "embla-carousel-react": "^8.5.2",
-    "ldrs": "^1.1.6",
     "lucide-react": "^0.486.0",
     "mongodb": "^6.3.0",
     "mongoose": "^8.0.3",
