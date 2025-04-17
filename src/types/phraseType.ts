@@ -1,6 +1,6 @@
 export interface PhraseWord {
   position: number;
-  englishMeaning: string;
+  english: string;
   note?: string;
   isProperNoun?: boolean;
 }
