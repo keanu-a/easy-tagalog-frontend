@@ -29,7 +29,7 @@ export default function DictionarySearchBar({
       <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4" />
       <Input
         className={cn('pl-10 rounded-full focus-visible:ring-0', className)}
-        placeholder="Search dictionary..."
+        placeholder="Search for a word..."
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       />

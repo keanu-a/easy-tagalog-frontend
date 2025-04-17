@@ -1,3 +1,5 @@
+import { Phrase } from './phraseType';
+
 export enum Tense {
   PAST = 'past',
   PRESENT = 'present',
@@ -55,4 +57,5 @@ export interface Word {
   conjugations?: Conjugation[];
   linkedWord?: LinkedWord;
   audioUrl?: string;
+  examplePhrases?: Phrase[];
 }

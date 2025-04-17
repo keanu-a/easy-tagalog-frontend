@@ -1,3 +1,5 @@
+'use client';
+
 import Link from 'next/link';
 
 import MaxWidthWrapper from './MaxWidthWrapper';
@@ -5,8 +7,11 @@ import Logo from './Logo';
 import DictionarySearchBar from './DictionarySearchBar';
 import MobileNav from './MobileNav';
 import { Button } from './ui/button';
+import { usePathname } from 'next/navigation';
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const isDictionaryPage = pathname.startsWith('/dictionary');
   // Test user
   const user = null;
 
@@ -19,7 +24,7 @@ export default function Navbar() {
               <Logo />
             </Link>
 
-            <div className="hidden md:block">
+            <div className={isDictionaryPage ? 'hidden' : 'hidden md:block'}>
               <DictionarySearchBar className="w-80" />
             </div>
           </div>

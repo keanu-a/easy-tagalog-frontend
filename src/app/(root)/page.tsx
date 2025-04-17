@@ -178,8 +178,8 @@ export default function Home() {
             <Sparkles className="w-8 h-8 text-primary" />
             <h3 className="text-2xl font-semibold">AI Grammar Breakdown</h3>
             <p className="text-muted-foreground text-sm max-w-sm">
-              WIP. Understand the logic and grammar behind Tagalog sentences
-              with helpful AI breakdowns.
+              Understand the logic and grammar behind Tagalog sentences with
+              helpful AI breakdowns.
             </p>
           </CardContent>
         </Card>
@@ -190,7 +190,7 @@ export default function Home() {
             <BarChart2 className="w-6 h-6 text-primary" />
             <h3 className="text-lg font-semibold">Track Your Progress</h3>
             <p className="text-muted-foreground text-sm">
-              WIP. Keep track of what you have mastered and where to improve.
+              Keep track of what you have mastered and where to improve.
             </p>
           </CardContent>
         </Card>
@@ -201,7 +201,7 @@ export default function Home() {
             <SquareStack className="w-6 h-6 text-primary" />
             <h3 className="text-lg font-semibold">Flashcards</h3>
             <p className="text-muted-foreground text-sm">
-              WIP. Master words and phrases through engaging flashcard review.
+              Master words and phrases through engaging flashcard review.
             </p>
           </CardContent>
         </Card>
