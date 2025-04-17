@@ -127,9 +127,9 @@
 }
 
 @theme {
-  --animate-spin-float: spinFloat 6s ease-in-out infinite;
+  --animate-float: smallFloat 4s ease-in-out infinite;
 
-  @keyframes spinFloat {
+  @keyframes smallFloat {
     0% {
       transform: rotate(0deg) translateY(0px);
     }
