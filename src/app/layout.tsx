@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { DM_Sans } from 'next/font/google';
 import { cn } from '@/lib/utils';
+import { Analytics } from '@vercel/analytics/react';
 
 import './globals.css';
 
@@ -20,6 +21,7 @@ export default function RootLayout({
     <html lang="en" className="h-full">
       <body className={cn('relative h-full antialiased', dmSans.className)}>
         <main>{children}</main>
+        <Analytics />
       </body>
     </html>
   );
