@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { cn } from '@/lib/utils';
+import RiceBowl from '@/components/RiceBowl';
 
 const ADDITIONAL_INFO = [
   {
@@ -35,6 +36,13 @@ const ADDITIONAL_INFO = [
 
 const floatingSuns = [
   {
+    top: 'top-8 md:top-50',
+    left: 'left-0',
+    width: 40,
+    delay: 'delay-1000',
+    hidden: 'hidden md:block',
+  },
+  {
     top: 'top-10',
     right: 'right-0',
     width: 100,
@@ -44,7 +52,7 @@ const floatingSuns = [
   {
     top: 'top-0 md:top-8',
     left: 'left-0 md:left-30',
-    width: 160,
+    width: 120,
     delay: 'delay-0',
     hidden: 'hidden md:block',
   },
@@ -56,19 +64,11 @@ const floatingSuns = [
     hidden: '',
   },
   {
-    top: 'top-8 md:top-50',
-    left: 'left-0',
-    width: 40,
-    delay: 'delay-1000',
-    hidden: '',
-  },
-
-  {
     bottom: 'bottom-0 md:bottom-20',
     right: 'right-0',
     width: 130,
     delay: 'delay-1000',
-    hidden: '',
+    hidden: 'hidden md:block',
   },
 ];
 
@@ -87,7 +87,7 @@ export default function Home() {
                 sun.bottom ?? '',
                 sun.left ?? '',
                 sun.right ?? '',
-                'animate-spin-float',
+                'animate-float',
                 sun.delay,
                 sun.hidden ?? '',
                 'opacity-50'
@@ -98,6 +98,9 @@ export default function Home() {
               alt="Floating Filipino sun"
             />
           ))}
+
+          <RiceBowl className="absolute left-0 -rotate-20 top-0 md:top-90 md:-left-20" />
+          <RiceBowl className="absolute right-0 delay-800 rotate-20 bottom-10 md:bottom-90 md:-right-20" />
 
           <div className="flex flex-col text-md sm:text-lg">
             COMING SOON. The easiest way to learn
@@ -178,8 +181,8 @@ export default function Home() {
             <Sparkles className="w-8 h-8 text-primary" />
             <h3 className="text-2xl font-semibold">AI Grammar Breakdown</h3>
             <p className="text-muted-foreground text-sm max-w-sm">
-              WIP. Understand the logic and grammar behind Tagalog sentences
-              with helpful AI breakdowns.
+              Understand the logic and grammar behind Tagalog sentences with
+              helpful AI breakdowns.
             </p>
           </CardContent>
         </Card>
@@ -190,7 +193,7 @@ export default function Home() {
             <BarChart2 className="w-6 h-6 text-primary" />
             <h3 className="text-lg font-semibold">Track Your Progress</h3>
             <p className="text-muted-foreground text-sm">
-              WIP. Keep track of what you have mastered and where to improve.
+              Keep track of what you have mastered and where to improve.
             </p>
           </CardContent>
         </Card>
@@ -201,14 +204,14 @@ export default function Home() {
             <SquareStack className="w-6 h-6 text-primary" />
             <h3 className="text-lg font-semibold">Flashcards</h3>
             <p className="text-muted-foreground text-sm">
-              WIP. Master words and phrases through engaging flashcard review.
+              Master words and phrases through engaging flashcard review.
             </p>
           </CardContent>
         </Card>
       </section>
 
       {/* Additional Information Section */}
-      <section className="flex justify-center flex-col max-w-4xl px-4 my-12 min-h-[80vh] w-full mx-auto text-center">
+      <section className="relative flex justify-center flex-col max-w-4xl px-4 my-12 min-h-[80vh] w-full mx-auto text-center">
         <h2 className="text-3xl md:text-4xl font-bold mb-16 tracking-tight">
           More than a language app
         </h2>
@@ -221,6 +224,9 @@ export default function Home() {
             </li>
           ))}
         </ul>
+
+        <RiceBowl className="hidden md:block absolute left-0 -rotate-20 top-20" />
+        <RiceBowl className="hidden md:block absolute right-0 delay-800 rotate-20 bottom-20" />
       </section>
 
       {/* Call-to-Action Section */}

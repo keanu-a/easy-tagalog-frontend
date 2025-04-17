@@ -1,7 +1,8 @@
 import { Word } from '@/types/wordType';
 import AccentWord from './AccentWord';
-import { Volume2 } from 'lucide-react';
-import { Button } from './ui/button';
+// import { Volume2 } from 'lucide-react';
+// import { Button } from './ui/button';
+import PhraseHover from './PhraseHover';
 
 interface DictionaryCardProps {
   word: Word;
@@ -16,9 +17,10 @@ export default function DictionaryCard({ word }: DictionaryCardProps) {
           accents={word.accents}
           className="font-bold text-3xl"
         />
-        <Button className="rounded-full cursor-pointer" variant="outline">
+        {/* TODO: ADD BACK IN BUTTON ONCE RECORDED */}
+        {/* <Button className="rounded-full cursor-pointer" variant="outline">
           <Volume2 />
-        </Button>
+        </Button> */}
       </div>
 
       {word.translations.map((translation, tIdx) => (
@@ -36,6 +38,44 @@ export default function DictionaryCard({ word }: DictionaryCardProps) {
           </ul>
         </div>
       ))}
+
+      {word.note && <p className="text-muted-foreground">{word.note}</p>}
+
+      {word.conjugations && (
+        <div className="mt-4 pt-2 border-t border-muted space-y-4">
+          <h2 className="font-bold text-ph-red">Conjugations</h2>
+          <ul>
+            {word.conjugations.map((conjugation, idx) => (
+              <li key={idx} className="flex space-x-2">
+                <p className="font-semibold">{conjugation.tense} - </p>
+                <AccentWord
+                  tagalog={conjugation.tagalog}
+                  accents={conjugation.accents}
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {word.examplePhrases && (
+        <div className="mt-4 pt-2 border-t border-muted space-y-4">
+          <h2 className="font-bold text-ph-red">Examples</h2>
+          <ul className="space-y-4 list-disc">
+            {word.examplePhrases.map((phrase, idx) => (
+              <li
+                key={idx}
+                className="flex flex-col border-l-2 border-muted pl-2"
+              >
+                <PhraseHover phrase={phrase} />
+                <p className="text-muted-foreground italic pl-2">
+                  - {phrase.english}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </li>
   );
 }
