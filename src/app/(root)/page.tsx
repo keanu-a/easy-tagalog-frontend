@@ -43,7 +43,7 @@ const floatingSuns = [
     hidden: 'hidden md:block',
   },
   {
-    top: 'top-10',
+    top: 'top-2 md:top-10',
     right: 'right-0',
     width: 100,
     delay: 'delay-200',
@@ -57,7 +57,7 @@ const floatingSuns = [
     hidden: 'hidden md:block',
   },
   {
-    bottom: 'bottom-15',
+    bottom: 'bottom-3 md:bottom-15',
     left: 'left-10 md:left-50',
     width: 70,
     delay: 'delay-200',
@@ -100,7 +100,7 @@ export default function Home() {
           ))}
 
           <RiceBowl className="absolute left-0 -rotate-20 top-0 md:top-90 md:-left-20" />
-          <RiceBowl className="absolute right-0 delay-800 rotate-20 bottom-10 md:bottom-90 md:-right-20" />
+          <RiceBowl className="absolute right-0 delay-800 rotate-20 bottom-2 md:bottom-90 md:-right-20" />
 
           <div className="flex flex-col text-md sm:text-lg">
             COMING SOON. The easiest way to learn
