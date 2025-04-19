@@ -9,10 +9,12 @@ import { cn } from '@/lib/utils';
 
 interface DictionarySearchBarProps {
   className?: string;
+  closeSheet?: () => void;
 }
 
 export default function DictionarySearchBar({
   className,
+  closeSheet,
 }: DictionarySearchBarProps) {
   const [inputText, setInputText] = useState('');
   const router = useRouter();
@@ -25,6 +27,7 @@ export default function DictionarySearchBar({
 
     startTransition(() => {
       router.push(`/dictionary?search=${encodeURIComponent(trimmed)}`);
+      if (closeSheet) closeSheet();
     });
   };
 
