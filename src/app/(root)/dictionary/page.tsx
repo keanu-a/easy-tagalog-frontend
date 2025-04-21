@@ -59,7 +59,7 @@ export default async function DictionaryPage({
     );
   } catch (err) {
     return (
-      <div className="text-center mt-10 text-ph-red">
+      <div className="text-center mt-10 text-ph-red min-h-[70vh]">
         Something went wrong while fetching results.
       </div>
     );
