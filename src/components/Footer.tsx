@@ -56,9 +56,11 @@ export default function Footer() {
         <div className="flex flex-col space-y-12 space-x-24 sm:flex-row sm:ml-auto">
           {FOOTER_LINKS.map(({ header, pages }, i) => (
             <div key={i} className="space-y-6">
-              <h3 className="font-bold tracking-tight text-2xl">{header}</h3>
+              <h3 className="font-bold tracking-tight text-2xl md:text-xl">
+                {header}
+              </h3>
 
-              <div className="flex flex-col space-y-4 text-xl">
+              <div className="flex flex-col space-y-4 text-xl md:text-lg md:space-y-2">
                 {pages.map(({ text, url }, footerLinkIndex) => (
                   <Link
                     href="/"
