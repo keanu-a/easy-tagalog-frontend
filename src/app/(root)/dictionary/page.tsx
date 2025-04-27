@@ -33,6 +33,8 @@ export default async function DictionaryPage({
 
     const data: Word[] = await res.json();
 
+    console.log(data);
+
     return (
       <div className="max-w-2xl mx-auto p-4 min-h-[70vh] space-y-4">
         <h1 className="text-center bg-ph-yellow rounded-lg p-2 shadow-md">

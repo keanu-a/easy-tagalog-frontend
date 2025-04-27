@@ -55,6 +55,7 @@ export interface Word {
   isIrregularVerb?: boolean;
   note?: string;
   conjugations?: Conjugation[];
+  focusType?: string;
   linkedWord?: LinkedWord;
   audioUrl?: string;
   examplePhrases?: Phrase[];
