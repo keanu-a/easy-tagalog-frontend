@@ -15,7 +15,7 @@ import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { cn } from '@/lib/utils';
 import RiceBowl from '@/components/RiceBowl';
 
-const ADDITIONAL_INFO = [
+const additionalInfo = [
   {
     title: 'Filipino Customs & Etiquette',
     text: 'Learn how to navigate respectful communication, greetings, and social norms.',
@@ -217,7 +217,7 @@ export default function Home() {
         </h2>
 
         <ul className="space-y-10 text-left">
-          {ADDITIONAL_INFO.map(({ title, text }, idx) => (
+          {additionalInfo.map(({ title, text }, idx) => (
             <li key={idx}>
               <h4 className="text-lg font-semibold">{title}</h4>
               <p className="text-muted-foreground text-sm">{text}</p>
