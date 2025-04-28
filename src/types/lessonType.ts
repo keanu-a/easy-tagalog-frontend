@@ -13,10 +13,20 @@ export enum QuestionType {
   BUILD_PHRASE = 'buildPhrase',
 }
 
+export enum LessonItemType {
+  SCENARIO_PROMPT = 'scenarioPrompt',
+  TRANSLATE_WORD = 'translateWord',
+  TRANSLATE_PHRASE = 'translatePhrase',
+}
+
 export interface LessonContent {
   type: ContentType;
   content: string;
   extras?: any;
+}
+
+interface ScenarioPromptItem {
+  type: '';
 }
 
 interface TranslateWordQuestion {

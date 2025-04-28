@@ -1,9 +1,5 @@
-import MaxWidthWrapper from '@/components/MaxWidthWrapper';
+import { redirect } from 'next/navigation';
 
-export default function LessonPage() {
-  return (
-    <>
-      <MaxWidthWrapper>?</MaxWidthWrapper>
-    </>
-  );
+export default function LessonRootPage() {
+  redirect('/');
 }
