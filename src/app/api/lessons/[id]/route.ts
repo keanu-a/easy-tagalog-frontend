@@ -10,7 +10,7 @@ export async function GET(
 ) {
   const lessonId = params.id;
 
-  const apiUrl = `${process.env.BACKEND_API_URL}/lessons/${lessonId}`;
+  const apiUrl = `${process.env.BACKEND_API_URL}/api/lessons/${lessonId}`;
 
   try {
     const res = await fetch(apiUrl);
