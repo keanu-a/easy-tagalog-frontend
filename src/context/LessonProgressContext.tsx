@@ -10,11 +10,11 @@ import {
 } from 'react';
 
 type LessonProgressContextType = {
-  currentQuestion: number;
-  totalQuestions: number;
+  currentLessonItem: number;
+  totalLessonItems: number;
   progress: number;
-  setCurrentQuestion: Dispatch<SetStateAction<number>>;
-  setTotalQuestions: Dispatch<SetStateAction<number>>;
+  setCurrentLessonItem: Dispatch<SetStateAction<number>>;
+  setTotalLessonItems: Dispatch<SetStateAction<number>>;
 };
 
 const LessonProgressContext = createContext<
@@ -26,23 +26,25 @@ export default function LessonProgressProvider({
 }: {
   children: React.ReactNode;
 }) {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [totalQuestions, setTotalQuestions] = useState(1);
+  const [currentLessonItem, setCurrentLessonItem] = useState(0);
+  const [totalLessonItems, setTotalLessonItems] = useState(0);
 
   // Calculates progress based on user progress in the questions
-  const progress = useMemo(
-    () => (currentQuestion / totalQuestions) * 100,
-    [currentQuestion, totalQuestions]
-  );
+  // Caps at 100% incase calculation goes over
+  const progress = useMemo(() => {
+    if (totalLessonItems === 0) return 0;
+    const prog = (currentLessonItem / totalLessonItems) * 100;
+    return Math.min(100, prog);
+  }, [currentLessonItem, totalLessonItems]);
 
   return (
     <LessonProgressContext.Provider
       value={{
-        currentQuestion,
-        totalQuestions,
+        currentLessonItem,
+        totalLessonItems,
         progress,
-        setCurrentQuestion,
-        setTotalQuestions,
+        setCurrentLessonItem,
+        setTotalLessonItems,
       }}
     >
       {children}

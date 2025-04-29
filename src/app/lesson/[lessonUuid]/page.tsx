@@ -1,30 +1,31 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
-import { LessonContent, LessonQuestion } from '@/types/lessonType';
+import { LessonItem, LessonItemType } from '@/types/lessonType';
 import LessonReadyPrompt from '@/components/LessonReadyPrompt';
 import { Button } from '@/components/ui/button';
 import { useLessonProgress } from '@/context/LessonProgressContext';
 import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
-import { ArrowRight, CircleCheck, CircleX } from 'lucide-react';
+import { CircleCheck, CircleX } from 'lucide-react';
 
-export default function DemoLessonPage() {
+export default function LessonPage() {
+  const params = useParams();
+  const { lessonUuid } = params;
+
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState<LessonContent[]>([]);
-  const [questions, setQuestions] = useState<LessonQuestion[]>([]);
-  const [contentIndex, setContentIndex] = useState(0);
-  const [questionIndex, setQuestionIndex] = useState(0);
+  const [lessonItems, setLessonItems] = useState<LessonItem[]>([]);
+  const [lessonItemIndex, setLessonItemIndex] = useState(0);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  const { setTotalQuestions, setCurrentQuestion } = useLessonProgress();
+  const { setTotalLessonItems, setCurrentLessonItem } = useLessonProgress();
 
-  const currentQuestion = questions[questionIndex];
-  const currentContent = content[contentIndex];
+  const currentLessonItem = lessonItems[lessonItemIndex];
 
   // Setting lesson engine state machine
   const {
@@ -40,21 +41,20 @@ export default function DemoLessonPage() {
 
   // Fetching lesson from database
   useEffect(() => {
+    if (!lessonUuid) return;
+
     const fetchDemoLesson = async () => {
       setLoading(true);
       try {
-        const res = await fetch(
-          '/api/lessons/fa2deee5-4ef5-49c7-b3b4-7a7d574eda52'
-        );
+        const res = await fetch(`/api/lessons/${lessonUuid}`);
         const data = await res.json();
 
         if (!res.ok) {
           setError(data?.error || 'An error occurred.');
         } else {
           setTitle(data.title);
-          setTotalQuestions(data.questions.length);
-          setQuestions(data.questions);
-          setContent(data.content ? data.content : []);
+          setTotalLessonItems(data.items.length);
+          setLessonItems(data.items ? data.items : []);
         }
       } catch (err) {
         setError('Could not connect to the server.');
@@ -64,28 +64,22 @@ export default function DemoLessonPage() {
     };
 
     fetchDemoLesson();
-  }, [setTotalQuestions]);
+  }, [setTotalLessonItems, lessonUuid]);
 
   // Handles going to next page
   const goToNext = () => {
-    const isFinalContent = contentIndex + 1 === content.length;
-    const isFinalQuestion = questionIndex + 1 === questions.length;
-
-    if (stage === StageType.CONTENT) {
-      setContentIndex((prev) => prev + 1);
-      goToNextStage(isFinalContent, false);
-    }
+    const isFinalLessonItem = lessonItemIndex + 1 === lessonItems.length;
 
     if (stage === StageType.CHECKED) {
-      setQuestionIndex((prev) => prev + 1);
-      setCurrentQuestion((prev) => prev + 1);
-      goToNextStage(true, isFinalQuestion);
+      setLessonItemIndex((prev) => prev + 1);
+      setCurrentLessonItem((prev) => prev + 1);
+      goToNextStage(isFinalLessonItem);
     }
   };
 
   const renderPrompt = () =>
     (stage === StageType.ANSWERING || stage === StageType.CHECKED) &&
-    currentQuestion ? (
+    currentLessonItem ? (
       <div
         className={cn(
           'relative text-center w-full py-6 rounded-xl transition-all',
@@ -114,14 +108,32 @@ export default function DemoLessonPage() {
           )}
         </span>
 
-        <h3 className="text-muted-foreground text-lg">Translate to Tagalog:</h3>
-        <h2 className="text-2xl">{currentQuestion.prompt}</h2>
+        {currentLessonItem.type === LessonItemType.SCENARIO_PROMPT && (
+          <>
+            <h3 className="text-muted-foreground text-lg">
+              Someone comes up to you and asks
+            </h3>
+            <h2 className="text-2xl">
+              {currentLessonItem.promptPhrase.tagalog}
+            </h2>
+          </>
+        )}
+
+        {(currentLessonItem.type === LessonItemType.TRANSLATE_WORD ||
+          currentLessonItem.type === LessonItemType.TRANSLATE_PHRASE) && (
+          <>
+            <h3 className="text-muted-foreground text-lg">
+              Translate to Tagalog:
+            </h3>
+            <h2 className="text-2xl">{currentLessonItem.english}</h2>
+          </>
+        )}
 
         {stage === StageType.CHECKED && (
           <p className="mt-4 text-xl font-semibold">
             {
-              currentQuestion.options.find(
-                (op) => op.uuid === currentQuestion.answer
+              currentLessonItem.options.find(
+                (op) => op.uuid === currentLessonItem.uuid
               )?.tagalog
             }
           </p>
@@ -132,9 +144,9 @@ export default function DemoLessonPage() {
   // Renders prompt/question
   const renderOptions = () =>
     (stage === StageType.ANSWERING || stage === StageType.CHECKED) &&
-    currentQuestion ? (
+    currentLessonItem ? (
       <div className="flex flex-col gap-4 justify-center mt-10">
-        {currentQuestion.options.map((option, idx) => (
+        {currentLessonItem.options.map((option, idx) => (
           <Button
             key={idx}
             className={cn(
@@ -143,7 +155,7 @@ export default function DemoLessonPage() {
               selectedOptions.includes(idx) &&
                 'bg-ph-blue text-primary-foreground -translate-y-1'
             )}
-            onClick={() => clickedOption(idx, currentQuestion)}
+            onClick={() => clickedOption(idx, currentLessonItem)}
             disabled={stage === StageType.CHECKED}
           >
             {option.tagalog}
@@ -155,7 +167,7 @@ export default function DemoLessonPage() {
   // Renders check and next buttons
   const renderBottomButtons = () => (
     <div className="flex items-center h-[15vh] text-lg">
-      {(stage === StageType.CONTENT || stage === StageType.CHECKED) && (
+      {stage === StageType.CHECKED && (
         <Button
           onClick={goToNext}
           className={cn(
@@ -171,7 +183,7 @@ export default function DemoLessonPage() {
       {stage === StageType.ANSWERING && (
         <Button
           className="cursor-pointer w-[90vw] md:w-32"
-          onClick={() => checkAnswer(currentQuestion)}
+          onClick={() => checkAnswer(currentLessonItem)}
           disabled={selectedOptions.length <= 0}
         >
           Check

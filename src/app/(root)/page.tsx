@@ -120,7 +120,7 @@ export default function Home() {
                 Start Learning
               </Button>
             </Link>
-            <Link href="/">
+            <Link href="/lesson/7510692f-ed11-415c-8a3a-cb665dc3ab52">
               <Button variant="outline" className="rounded-full cursor-pointer">
                 Try Demo Lesson
               </Button>

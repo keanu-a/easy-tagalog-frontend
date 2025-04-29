@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import { useLessonProgress } from '@/context/LessonProgressContext';
-import { LessonQuestion, QuestionType } from '@/types/lessonType';
+import { LessonItem, LessonItemType } from '@/types/lessonType';
 
 enum ActionType {
   START = 'start',
@@ -12,7 +12,6 @@ enum ActionType {
 
 export enum StageType {
   NOT_READY = 'not ready',
-  CONTENT = 'content',
   ANSWERING = 'answering',
   CHECKED = 'checked',
   FINISHED = 'finished',
@@ -22,15 +21,15 @@ type Action =
   | { type: ActionType.START }
   | {
       type: ActionType.CLICKED;
-      payload: { index: number; question: LessonQuestion };
+      payload: { index: number; lessonItem: LessonItem };
     }
   | {
       type: ActionType.CHECK;
-      payload: { question: LessonQuestion };
+      payload: { lessonItem: LessonItem };
     }
   | {
       type: ActionType.NEXT;
-      payload: { isFinalContent: boolean; isFinalQuestion: boolean };
+      payload: { isFinalLessonItem: boolean };
     }
   | { type: ActionType.RESTART };
 
@@ -55,11 +54,12 @@ const reducer = (state: State, action: Action): State => {
       };
 
     case ActionType.CLICKED: {
-      const { question, index } = action.payload;
+      const { lessonItem, index } = action.payload;
 
       if (
-        question.type === QuestionType.TRANSLATE_WORD ||
-        question.type === QuestionType.TRANSLATE_PHRASE
+        lessonItem.type === LessonItemType.TRANSLATE_WORD ||
+        lessonItem.type === LessonItemType.TRANSLATE_PHRASE ||
+        lessonItem.type === LessonItemType.SCENARIO_PROMPT
       ) {
         return {
           ...state,
@@ -67,33 +67,26 @@ const reducer = (state: State, action: Action): State => {
         };
       }
 
-      if (question.type === QuestionType.BUILD_PHRASE) {
-        // First check to see if the option was already selected
-        const isAlreadySelected = state.selectedOptions.includes(index);
-
-        return {
-          ...state,
-          selectedOptions: isAlreadySelected
-            ? state.selectedOptions.filter((i) => i !== index)
-            : [...state.selectedOptions, index],
-        };
-      }
+      return state;
     }
 
     case ActionType.CHECK: {
-      const { question } = action.payload;
+      const { lessonItem } = action.payload;
       let currentState = state;
 
       if (
-        question.type === QuestionType.TRANSLATE_WORD ||
-        question.type === QuestionType.TRANSLATE_PHRASE
+        lessonItem.type === LessonItemType.TRANSLATE_WORD ||
+        lessonItem.type === LessonItemType.TRANSLATE_PHRASE
       ) {
         currentState = {
           ...state,
           isUserCorrect:
-            question.options[state.selectedOptions[0]].uuid === question.answer,
+            lessonItem.options[state.selectedOptions[0]].uuid ===
+            lessonItem.answer,
         };
       }
+
+      // NOTHING TO CHECK FOR SCENARIO_PROMPT
 
       return {
         ...currentState,
@@ -102,15 +95,11 @@ const reducer = (state: State, action: Action): State => {
     }
 
     case ActionType.NEXT: {
-      const { isFinalContent, isFinalQuestion } = action.payload;
+      const { isFinalLessonItem } = action.payload;
 
-      let nextStage = StageType.CONTENT;
+      let nextStage = StageType.ANSWERING;
 
-      if (isFinalContent && !isFinalQuestion) {
-        nextStage = StageType.ANSWERING;
-      }
-
-      if (isFinalQuestion) {
+      if (isFinalLessonItem) {
         nextStage = StageType.FINISHED;
       }
 
@@ -132,33 +121,33 @@ const reducer = (state: State, action: Action): State => {
 
 export function useLessonEngine() {
   const [state, dispatch] = useReducer(reducer, INITIAL_STATE);
-  const { setCurrentQuestion } = useLessonProgress();
+  const { setCurrentLessonItem } = useLessonProgress();
 
   const startLesson = () => dispatch({ type: ActionType.START });
 
-  const clickedOption = (index: number, question: LessonQuestion) => {
+  const clickedOption = (index: number, lessonItem: LessonItem) => {
     dispatch({
       type: ActionType.CLICKED,
-      payload: { index, question },
+      payload: { index, lessonItem },
     });
   };
 
-  const checkAnswer = (question: LessonQuestion) => {
+  const checkAnswer = (lessonItem: LessonItem) => {
     dispatch({
       type: ActionType.CHECK,
-      payload: { question },
+      payload: { lessonItem },
     });
   };
 
-  const goToNextStage = (isFinalContent: boolean, isFinalQuestion: boolean) =>
+  const goToNextStage = (isFinalLessonItem: boolean) =>
     dispatch({
       type: ActionType.NEXT,
-      payload: { isFinalContent, isFinalQuestion },
+      payload: { isFinalLessonItem },
     });
 
   const restartLesson = () => {
     dispatch({ type: ActionType.RESTART });
-    setCurrentQuestion(0);
+    setCurrentLessonItem(0);
   };
 
   const finishLesson = () => {
