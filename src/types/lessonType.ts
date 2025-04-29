@@ -1,53 +1,44 @@
 import { Phrase } from './phraseType';
 import { Word } from './wordType';
 
-export enum ContentType {
-  TEXT = 'text',
-  AUDIO = 'audio',
-  EXAMPLE = 'example',
-}
-
-export enum QuestionType {
-  TRANSLATE_WORD = 'translateWord',
-  TRANSLATE_PHRASE = 'translatePhrase',
-  BUILD_PHRASE = 'buildPhrase',
-}
-
 export enum LessonItemType {
-  SCENARIO_PROMPT = 'scenarioPrompt',
   TRANSLATE_WORD = 'translateWord',
   TRANSLATE_PHRASE = 'translatePhrase',
+  SCENARIO_PROMPT = 'scenarioPrompt',
 }
 
-export interface LessonContent {
-  type: ContentType;
-  content: string;
-  extras?: any;
+interface BaseLessonItem {
+  uuid: string;
+  type: LessonItemType;
 }
 
-interface ScenarioPromptItem {
-  type: '';
-}
-
-interface TranslateWordQuestion {
-  prompt: string;
+export interface TranslateWordQuestion extends BaseLessonItem {
+  type: LessonItemType.TRANSLATE_WORD;
+  english: string;
   options: Word[];
   answer: string; // UUID
-  type: QuestionType;
 }
 
-interface TranslatePhraseQuestion {
-  prompt: string;
+export interface TranslatePhraseQuestion extends BaseLessonItem {
+  type: LessonItemType.TRANSLATE_PHRASE;
+  english: string;
   options: Phrase[];
   answer: string; // UUID
-  type: QuestionType;
 }
 
-export type LessonQuestion = TranslateWordQuestion | TranslatePhraseQuestion;
+export interface ScenarioPromptItem extends BaseLessonItem {
+  type: LessonItemType.SCENARIO_PROMPT;
+  promptPhrase: Phrase;
+  options: Phrase[];
+}
+
+export type LessonItem =
+  | ScenarioPromptItem
+  | TranslateWordQuestion
+  | TranslatePhraseQuestion;
 
 export interface Lesson {
   uuid: string;
   title: string;
-  content?: LessonContent[];
-  questions: LessonQuestion[];
+  items: LessonItem[];
 }
