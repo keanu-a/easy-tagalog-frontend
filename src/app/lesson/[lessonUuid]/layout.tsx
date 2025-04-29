@@ -1,15 +1,13 @@
 'use client';
 
-import LessonProgressProvider from '@/context/LessonProgressContext';
-import MaxWidthWrapper from './MaxWidthWrapper';
-import LessonPause from './LessonPause';
-import LessonProgressBar from './LessonProgressBar';
+import { ReactNode } from 'react';
 
-export default function LessonLayoutWrapper({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+import LessonProgressProvider from '@/context/LessonProgressContext';
+import MaxWidthWrapper from '@/components/MaxWidthWrapper';
+import LessonPause from '@/components/LessonPause';
+import LessonProgressBar from '@/components/LessonProgressBar';
+
+export default function LessonLayout({ children }: { children: ReactNode }) {
   return (
     <LessonProgressProvider>
       <MaxWidthWrapper>
