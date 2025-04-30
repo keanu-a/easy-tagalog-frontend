@@ -9,15 +9,15 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-interface PhraseHoverProps {
+interface PhraseWordHoverProps {
   phrase: Phrase;
   showToolTip?: boolean;
 }
 
-export default function PhraseHover({
+export default function PhraseWordHover({
   phrase,
   showToolTip = true,
-}: PhraseHoverProps) {
+}: PhraseWordHoverProps) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const splitPhrase = useMemo(() => phrase.tagalog.split(' '), [phrase]);
 

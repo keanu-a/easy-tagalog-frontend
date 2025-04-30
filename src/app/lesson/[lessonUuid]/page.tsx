@@ -4,8 +4,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 
+import { useQuery } from '@tanstack/react-query';
 import { cn } from '@/lib/utils';
-import { LessonItem, LessonItemType } from '@/types/lessonType';
+import { Lesson, LessonItem, LessonItemType } from '@/types/lessonType';
 import LessonReadyPrompt from '@/components/LessonReadyPrompt';
 import { Button } from '@/components/ui/button';
 import { useLessonProgress } from '@/context/LessonProgressContext';
@@ -47,10 +48,10 @@ export default function LessonPage() {
       setLoading(true);
       try {
         const res = await fetch(`/api/lessons/${lessonUuid}`);
-        const data = await res.json();
+        const data: Lesson = await res.json();
 
         if (!res.ok) {
-          setError(data?.error || 'An error occurred.');
+          setError('An error occurred.');
         } else {
           setTitle(data.title);
           setTotalLessonItems(data.items.length);

@@ -15,6 +15,8 @@ import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { cn } from '@/lib/utils';
 import RiceBowl from '@/components/RiceBowl';
 
+const DEMO_LESSON_UUID = '7510692f-ed11-415c-8a3a-cb665dc3ab52';
+
 const additionalInfo = [
   {
     title: 'Filipino Customs & Etiquette',
@@ -120,7 +122,7 @@ export default function Home() {
                 Start Learning
               </Button>
             </Link>
-            <Link href="/lesson/7510692f-ed11-415c-8a3a-cb665dc3ab52">
+            <Link href={`/lesson/${DEMO_LESSON_UUID}`}>
               <Button variant="outline" className="rounded-full cursor-pointer">
                 Try Demo Lesson
               </Button>

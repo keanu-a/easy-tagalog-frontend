@@ -2,7 +2,7 @@ import { Word } from '@/types/wordType';
 import AccentWord from './AccentWord';
 // import { Volume2 } from 'lucide-react';
 // import { Button } from './ui/button';
-import PhraseHover from './PhraseHover';
+import PhraseWordHover from './PhraseWordHover';
 
 interface DictionaryCardProps {
   word: Word;
@@ -108,7 +108,7 @@ export default function DictionaryCard({ word }: DictionaryCardProps) {
                 className="flex flex-col border-l-2 border-muted pl-2"
               >
                 <div className="flex space-x-2">
-                  <PhraseHover phrase={phrase} />
+                  <PhraseWordHover phrase={phrase} />
                   {/* <Button className="rounded-full cursor-pointer" variant="outline">
                         <Volume2 />
                       </Button> */}
