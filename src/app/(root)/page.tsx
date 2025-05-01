@@ -117,7 +117,7 @@ export default function Home() {
           </p>
 
           <div className="flex space-x-2 justify-center">
-            <Link href="/">
+            <Link href="/login">
               <Button className="rounded-full cursor-pointer">
                 Start Learning
               </Button>
