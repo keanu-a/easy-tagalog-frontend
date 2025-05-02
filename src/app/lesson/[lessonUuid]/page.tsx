@@ -1,32 +1,27 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
 import Link from 'next/link';
-
+import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+
 import { cn } from '@/lib/utils';
-import { Lesson, LessonItem, LessonItemType } from '@/types/lessonType';
+import { Lesson, LessonItemType } from '@/types/lessonType';
 import LessonReadyPrompt from '@/components/LessonReadyPrompt';
 import { Button } from '@/components/ui/button';
 import { useLessonProgress } from '@/context/LessonProgressContext';
 import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
 import { CircleCheck, CircleX } from 'lucide-react';
 
+export async function fetchLesson(lessonUuid: string): Promise<Lesson> {
+  const res = await fetch(`/api/lessons/${lessonUuid}`);
+  if (!res.ok) throw new Error('Failed to fetch lesson');
+  return res.json();
+}
+
 export default function LessonPage() {
-  const params = useParams();
-  const { lessonUuid } = params;
-
-  const [title, setTitle] = useState('');
-  const [lessonItems, setLessonItems] = useState<LessonItem[]>([]);
-  const [lessonItemIndex, setLessonItemIndex] = useState(0);
-
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
+  const { lessonUuid } = useParams();
   const { setTotalLessonItems, setCurrentLessonItem } = useLessonProgress();
-
-  const currentLessonItem = lessonItems[lessonItemIndex];
 
   // Setting lesson engine state machine
   const {
@@ -40,36 +35,31 @@ export default function LessonPage() {
     finishLesson,
   } = useLessonEngine();
 
+  const [lessonItemIndex, setLessonItemIndex] = useState(0);
+
   // Fetching lesson from database
+  const {
+    data: lesson,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ['lesson', lessonUuid],
+    queryFn: () => fetchLesson(lessonUuid as string),
+    enabled: !!lessonUuid, // In case lessonUuid is undefined
+  });
+
+  const currentLessonItem = lesson?.items[lessonItemIndex];
+
+  // Setting lesson state once fetched successfully
   useEffect(() => {
-    if (!lessonUuid) return;
+    if (!lesson) return;
 
-    const fetchDemoLesson = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`/api/lessons/${lessonUuid}`);
-        const data: Lesson = await res.json();
+    setTotalLessonItems(lesson.items.length);
+  }, [lesson, setTotalLessonItems]);
 
-        if (!res.ok) {
-          setError('An error occurred.');
-        } else {
-          setTitle(data.title);
-          setTotalLessonItems(data.items.length);
-          setLessonItems(data.items ? data.items : []);
-        }
-      } catch (err) {
-        setError('Could not connect to the server.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDemoLesson();
-  }, [setTotalLessonItems, lessonUuid]);
-
-  // Handles going to next page
+  // Handles going to next lesson item
   const goToNext = () => {
-    const isFinalLessonItem = lessonItemIndex + 1 === lessonItems.length;
+    const isFinalLessonItem = lessonItemIndex + 1 === lesson?.items.length;
 
     if (stage === StageType.CHECKED) {
       setLessonItemIndex((prev) => prev + 1);
@@ -184,7 +174,7 @@ export default function LessonPage() {
       {stage === StageType.ANSWERING && (
         <Button
           className="cursor-pointer w-[90vw] md:w-32"
-          onClick={() => checkAnswer(currentLessonItem)}
+          onClick={() => currentLessonItem && checkAnswer(currentLessonItem)}
           disabled={selectedOptions.length <= 0}
         >
           Check
@@ -195,9 +185,9 @@ export default function LessonPage() {
 
   // Page render conditions
 
-  if (loading) return <div>Loading lesson...</div>;
+  if (isLoading) return <div>Loading lesson...</div>;
 
-  if (error) return <div>Error loading lesson...</div>;
+  if (isError) return <div>Error loading lesson...</div>;
 
   // Start page render
   if (stage === StageType.NOT_READY) {

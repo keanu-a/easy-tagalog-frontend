@@ -3,6 +3,7 @@ import { DM_Sans } from 'next/font/google';
 import { cn } from '@/lib/utils';
 import { Analytics } from '@vercel/analytics/react';
 
+import QueryProvider from '@/providers/QueryProvider';
 import './globals.css';
 
 const dmSans = DM_Sans({ subsets: ['latin'] });
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body className={cn('relative h-full antialiased', dmSans.className)}>
-        <main>{children}</main>
+        <QueryProvider>
+          <main>{children}</main>
+        </QueryProvider>
         <Analytics />
       </body>
     </html>
