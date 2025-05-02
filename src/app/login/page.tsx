@@ -1,16 +1,19 @@
 'use client';
 
 import { useState } from 'react';
-import { supabase } from '@/utils/supabase/client';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { ArrowLeftFromLineIcon, GithubIcon, Loader2 } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 
+import { supabase } from '@/utils/supabase/client';
+import { cn } from '@/lib/utils';
+import { ArrowLeftFromLineIcon, Loader2 } from 'lucide-react';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+
 export default function LoginPage() {
+  const router = useRouter();
+
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -19,12 +22,16 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const router = useRouter();
-
   const handleSignup = async () => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
+      options: {
+        data: {
+          firstName,
+          lastName,
+        },
+      },
     });
 
     if (error) {
@@ -111,16 +118,18 @@ export default function LoginPage() {
             Sign Up
           </Button>
         </form>
+
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Or sign in with
+              Or sign up with
             </span>
           </div>
         </div>
+
         <Button
           className="rounded-full cursor-pointer w-full"
           variant="outline"
@@ -130,6 +139,7 @@ export default function LoginPage() {
           {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : ''}{' '}
           Google
         </Button>
+
         <Button
           className="rounded-full cursor-pointer w-full"
           variant="outline"
