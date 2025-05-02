@@ -13,7 +13,7 @@ import { useLessonProgress } from '@/context/LessonProgressContext';
 import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
 import { CircleCheck, CircleX } from 'lucide-react';
 
-export async function fetchLesson(lessonUuid: string): Promise<Lesson> {
+async function fetchLesson(lessonUuid: string): Promise<Lesson> {
   const res = await fetch(`/api/lessons/${lessonUuid}`);
   if (!res.ok) throw new Error('Failed to fetch lesson');
   return res.json();
