@@ -6,8 +6,9 @@ import MaxWidthWrapper from './MaxWidthWrapper';
 import Logo from './Logo';
 import DictionarySearchBar from './DictionarySearchBar';
 import MobileNav from './MobileNav';
-import { Button } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import { usePathname } from 'next/navigation';
+import { cn } from '@/lib/utils';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -34,9 +35,15 @@ export default function Navbar() {
 
             <div className="hidden md:block">
               {user === null && (
-                <Button className="rounded-full cursor-pointer">
+                <Link
+                  href="/login"
+                  className={cn(
+                    buttonVariants({ variant: 'default' }),
+                    'rounded-full cursor-pointer'
+                  )}
+                >
                   Get Started
-                </Button>
+                </Link>
               )}
             </div>
           </div>
