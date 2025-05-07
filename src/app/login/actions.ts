@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 
 import { createClient } from '@/utils/supabase/server';
-import { signUpSchema } from './schemas';
+import { loginSchema, signUpSchema } from './schemas';
 
 export async function signup(prevState: any, formData: FormData) {
   const validationResult = signUpSchema.safeParse({
@@ -26,8 +26,6 @@ export async function signup(prevState: any, formData: FormData) {
 
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -36,17 +34,37 @@ export async function signup(prevState: any, formData: FormData) {
   const { error } = await supabase.auth.signUp(data);
 
   if (error) {
-    return { message: error.message };
+    return {
+      errorMessage: error.message,
+      values: {
+        name: formData.get('name') as string,
+        email: data.email,
+        password: data.password,
+      },
+    };
   }
 
-  return { message: null };
+  return { message: 'We have sent a confirmation email to your inbox.' };
 }
 
-export async function login(formData: FormData) {
+export async function login(prevState: any, formData: FormData) {
+  const validationResult = loginSchema.safeParse({
+    email: formData.get('email') as string,
+    password: formData.get('password') as string,
+  });
+
+  if (!validationResult.success) {
+    return {
+      errors: validationResult.error.flatten().fieldErrors,
+      values: {
+        email: formData.get('email') as string,
+        password: formData.get('password') as string,
+      },
+    };
+  }
+
   const supabase = await createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
     email: formData.get('email') as string,
     password: formData.get('password') as string,
@@ -55,9 +73,12 @@ export async function login(formData: FormData) {
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    redirect('/error');
+    return {
+      errorMessage: 'Invalid email or password',
+      values: { email: data.email },
+    };
   }
 
   revalidatePath('/', 'layout');
-  redirect('/account');
+  redirect('/dashboard');
 }

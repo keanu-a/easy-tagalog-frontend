@@ -4,10 +4,10 @@ import { useActionState } from 'react';
 import Link from 'next/link';
 
 import { cn } from '@/lib/utils';
-import { ArrowLeftFromLineIcon, Loader2 } from 'lucide-react';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ArrowLeftFromLineIcon, Loader2 } from 'lucide-react';
 import { signup } from './actions';
 
 export default function LoginPage() {
@@ -28,6 +28,10 @@ export default function LoginPage() {
 
       <div className="min-w-80 space-y-3">
         <h1 className="text-2xl font-semibold tracking-tight">Sign Up</h1>
+
+        {state?.message && (
+          <p className="text-ph-blue text-sm">{state?.message}</p>
+        )}
 
         <form className="space-y-4 *:space-y-1" action={action}>
           <div>
@@ -84,9 +88,16 @@ export default function LoginPage() {
             </div>
           )}
 
-          {state?.message && <p>{state?.message}</p>}
+          {state?.errorMessage && (
+            <p className="text-ph-red text-sm">{state?.errorMessage}</p>
+          )}
 
-          <Button type="submit" className="rounded-full cursor-pointer w-full">
+          <Button
+            type="submit"
+            className="rounded-full cursor-pointer w-full"
+            disabled={pending}
+          >
+            {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : ''}
             Sign Up
           </Button>
         </form>
@@ -106,15 +117,15 @@ export default function LoginPage() {
           className="rounded-full cursor-pointer w-full"
           variant="outline"
           type="button"
-          // disabled={isLoading}
+          disabled={pending}
         >
-          {/* {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : ''}{' '} */}
+          {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : ''}
           Google
         </Button>
 
         <div className="text-center text-sm">
           Already have an account?{' '}
-          <Link href="/login" className="text-blue-600 hover:underline">
+          <Link href="/login" className="text-ph-blue hover:underline">
             Log in
           </Link>
         </div>
