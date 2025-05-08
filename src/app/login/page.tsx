@@ -52,7 +52,7 @@ export default function LoginPage() {
           className="rounded-full cursor-pointer w-full"
           variant="outline"
           type="button"
-          disabled={pending}
+          disabled={true}
         >
           {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : ''}
           Google
