@@ -28,13 +28,7 @@ const TEST_SECTION_LESSON_DATA = {
   ],
 };
 
-interface ISectionPageProps {
-  params: {
-    section: string;
-  };
-}
-
-export default function SectionPage({ params }: ISectionPageProps) {
+export default function SectionPage() {
   return (
     <div className="mb-12">
       <MaxWidthWrapper>

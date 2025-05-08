@@ -4,10 +4,8 @@ import { NextRequest, NextResponse } from 'next/server';
 const backendUrl = process.env.BACKEND_API_URL;
 if (!backendUrl) throw new Error('Missing environment variables: ');
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function GET(req: Request, props: { params: Promise<{ id: string }> }) {
+  const params = await props.params;
   const lessonId = params.id;
 
   const apiUrl = `${process.env.BACKEND_API_URL}/api/lessons/${lessonId}`;
