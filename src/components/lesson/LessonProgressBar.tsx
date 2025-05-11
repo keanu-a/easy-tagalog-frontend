@@ -1,5 +1,5 @@
 import { useLessonProgress } from '@/context/LessonProgressContext';
-import { Progress } from './ui/progress';
+import { Progress } from '../ui/progress';
 
 export default function LessonProgressBar() {
   const { progress } = useLessonProgress();
