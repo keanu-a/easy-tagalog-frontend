@@ -1,5 +1,5 @@
 import { LogOut, Pause, RotateCcw } from 'lucide-react';
-import { Button, buttonVariants } from './ui/button';
+import { Button, buttonVariants } from '../ui/button';
 import {
   DialogContent,
   DialogHeader,
@@ -7,8 +7,8 @@ import {
   DialogTrigger,
   DialogTitle,
   DialogDescription,
-} from './ui/dialog';
-import { Switch } from './ui/switch';
+} from '../ui/dialog';
+import { Switch } from '../ui/switch';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useLessonProgress } from '@/context/LessonProgressContext';
