@@ -10,7 +10,7 @@ import LessonProgressBar from '@/components/lesson/LessonProgressBar';
 export default function LessonLayout({ children }: { children: ReactNode }) {
   return (
     <LessonProgressProvider>
-      <div className="min-h-screen flex flex-col">
+      <div className="min-h-[100dvh] flex flex-col">
         <div className="sticky top-0 z-10">
           <MaxWidthWrapper>
             <div className="flex space-x-2 items-center h-[10vh]">
