@@ -2,9 +2,9 @@ import { useActionState, useEffect } from 'react';
 
 import { login } from '@/app/login/actions';
 import { Label } from '@radix-ui/react-label';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
 import { Loader2 } from 'lucide-react';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 
 export default function LoginForm({
   setPending,
@@ -18,7 +18,8 @@ export default function LoginForm({
   }, [pending, setPending]);
 
   return (
-    <form className="space-y-4 *:space-y-1" action={action}>
+    <form className="space-y-4 *:space-y-1">
+      {/* <form className="space-y-4 *:space-y-1" action={action}> */}
       <div>
         <Label htmlFor="email">Email</Label>
         <Input
@@ -65,7 +66,8 @@ export default function LoginForm({
       <Button
         type="submit"
         className="rounded-full cursor-pointer w-full"
-        disabled={pending}
+        disabled={true}
+        // disabled={pending}
       >
         {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : ''}
         Login
