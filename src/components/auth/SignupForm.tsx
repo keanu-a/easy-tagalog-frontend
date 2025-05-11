@@ -2,8 +2,8 @@ import { useActionState, useEffect } from 'react';
 
 import { signup } from '@/app/login/actions';
 import { Label } from '@radix-ui/react-label';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
 
 export default function SignupForm({
@@ -18,7 +18,8 @@ export default function SignupForm({
   }, [pending, setPending]);
 
   return (
-    <form className="space-y-4 *:space-y-1" action={action}>
+    <form className="space-y-4 *:space-y-1">
+      {/* <form className="space-y-4 *:space-y-1" action={action}> */}
       {state?.message && (
         <p className="text-ph-blue text-sm">{state?.message}</p>
       )}
@@ -84,7 +85,8 @@ export default function SignupForm({
       <Button
         type="submit"
         className="rounded-full cursor-pointer w-full"
-        disabled={pending}
+        disabled={true}
+        // disabled={pending}
       >
         {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : ''}
         Sign Up

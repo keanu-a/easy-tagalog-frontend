@@ -6,8 +6,8 @@ import { cn } from '@/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { ArrowLeftFromLineIcon, Loader2 } from 'lucide-react';
 import { useState } from 'react';
-import SignupForm from '@/components/SignupForm';
-import LoginForm from '@/components/LoginForm';
+import SignupForm from '@/components/auth/SignupForm';
+import LoginForm from '@/components/auth/LoginForm';
 
 export default function LoginPage() {
   const [mode, setMode] = useState<'login' | 'signup'>('signup');
