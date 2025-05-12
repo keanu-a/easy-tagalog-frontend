@@ -93,9 +93,21 @@ export default function LessonItemContent({
   // Renders prompt/question
   const renderOptions = () =>
     (stage === StageType.ANSWERING || stage === StageType.CHECKED) && (
-      <div className="flex flex-col gap-6 justify-center items-center mt-10">
+      <div className="flex flex-col gap-8 justify-center items-center mt-12">
         {item.type === LessonItemType.SCENARIO_PROMPT && (
-          <p>Here are some possible ways to respond:</p>
+          <>
+            {stage === StageType.CHECKED ? (
+              <div className="flex flex-col items-center">
+                <p>You responded: </p>
+                <PhraseWordHover
+                  phrase={item.options[selectedOptions[0]]}
+                  className="text-2xl"
+                />
+              </div>
+            ) : (
+              <p>Here are some possible ways to respond:</p>
+            )}
+          </>
         )}
 
         <div className="space-y-8">
@@ -133,6 +145,16 @@ export default function LessonItemContent({
   const renderBottomButtons = () => (
     <div className="absolute bottom-0">
       <div className="h-[10vh] flex items-center">
+        {stage === StageType.ANSWERING && (
+          <Button
+            className="cursor-pointer w-[90vw] md:w-32"
+            onClick={() => onCheckAnswer(item)}
+            disabled={selectedOptions.length <= 0}
+          >
+            Check
+          </Button>
+        )}
+
         {stage === StageType.CHECKED && (
           <Button
             onClick={onNext}
@@ -143,16 +165,6 @@ export default function LessonItemContent({
             )}
           >
             Next
-          </Button>
-        )}
-
-        {stage === StageType.ANSWERING && (
-          <Button
-            className="cursor-pointer w-[90vw] md:w-32"
-            onClick={() => onCheckAnswer(item)}
-            disabled={selectedOptions.length <= 0}
-          >
-            Check
           </Button>
         )}
       </div>

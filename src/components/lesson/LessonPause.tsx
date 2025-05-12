@@ -39,6 +39,7 @@ export default function LessonPause() {
     <div className={progress === 100 ? 'hidden' : ''}>
       <Dialog>
         <DialogTrigger
+          aria-label="Pause button"
           className={cn(
             buttonVariants({ variant: 'outline' }),
             'rounded-full cursor-pointer'
