@@ -4,12 +4,14 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
 
-import { Lesson } from '@/types/lessonType';
+import { Lesson, LessonItemType } from '@/types/lessonType';
 import LessonReadyPrompt from '@/components/lesson/LessonReadyPrompt';
 import { useLessonProgress } from '@/context/LessonProgressContext';
-import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
 import LessonFinish from '@/components/lesson/LessonFinish';
 import LessonItemContent from '@/components/lesson/LessonItemContent';
+
+import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
+import { useSoundEffects } from '@/hooks/useSoundEffects';
 
 async function fetchLesson(lessonUuid: string): Promise<Lesson> {
   const res = await fetch(`/api/lessons/${lessonUuid}`);
@@ -20,6 +22,7 @@ async function fetchLesson(lessonUuid: string): Promise<Lesson> {
 export default function LessonPage() {
   const { lessonUuid } = useParams();
   const { setTotalLessonItems, setCurrentLessonItem } = useLessonProgress();
+  const { playRightAnswer, playWrongAnswer } = useSoundEffects();
 
   // Setting lesson engine state machine
   const {
@@ -53,6 +56,21 @@ export default function LessonPage() {
     if (!lesson) return;
     setTotalLessonItems(lesson.items.length);
   }, [lesson, setTotalLessonItems]);
+
+  // Handles playing audio for correct or incorrect answer
+  useEffect(() => {
+    if (currentLessonItem?.type === LessonItemType.SCENARIO_PROMPT) return;
+
+    if (stage === StageType.CHECKED) {
+      isUserCorrect ? playRightAnswer() : playWrongAnswer();
+    }
+  }, [
+    stage,
+    isUserCorrect,
+    playRightAnswer,
+    playWrongAnswer,
+    currentLessonItem?.type,
+  ]);
 
   // Handles going to next lesson item
   const goToNext = () => {
