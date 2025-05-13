@@ -37,12 +37,16 @@ interface State {
   stage: StageType;
   selectedOptions: number[];
   isUserCorrect: boolean | null;
+  rightAnswered: number;
+  wrongAnswered: number;
 }
 
 const INITIAL_STATE: State = {
   stage: StageType.NOT_READY,
   selectedOptions: [],
   isUserCorrect: null,
+  rightAnswered: 0,
+  wrongAnswered: 0,
 };
 
 const reducer = (state: State, action: Action): State => {
@@ -78,11 +82,19 @@ const reducer = (state: State, action: Action): State => {
         lessonItem.type === LessonItemType.TRANSLATE_WORD ||
         lessonItem.type === LessonItemType.TRANSLATE_PHRASE
       ) {
+        const isUserCorrect =
+          lessonItem.options[state.selectedOptions[0]].uuid ===
+          lessonItem.answer;
+
         currentState = {
           ...state,
-          isUserCorrect:
-            lessonItem.options[state.selectedOptions[0]].uuid ===
-            lessonItem.answer,
+          isUserCorrect: isUserCorrect,
+          rightAnswered: isUserCorrect
+            ? state.rightAnswered + 1
+            : state.rightAnswered,
+          wrongAnswered: isUserCorrect
+            ? state.wrongAnswered
+            : state.wrongAnswered + 1,
         };
       }
 
