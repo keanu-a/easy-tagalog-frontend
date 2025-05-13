@@ -29,6 +29,8 @@ export default function LessonPage() {
     stage,
     selectedOptions,
     isUserCorrect,
+    rightAnswered,
+    wrongAnswered,
     startLesson,
     clickedOption,
     checkAnswer,
@@ -96,7 +98,12 @@ export default function LessonPage() {
 
   // Finish page render
   if (stage === StageType.FINISHED) {
-    return <LessonFinish onFinishLesson={finishLesson} />;
+    return (
+      <LessonFinish
+        rightAnswered={rightAnswered}
+        onFinishLesson={finishLesson}
+      />
+    );
   }
 
   // Main lesson render
