@@ -12,6 +12,7 @@ import LessonItemContent from '@/components/lesson/LessonItemContent';
 
 import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
 import { useSoundEffects } from '@/hooks/useSoundEffects';
+import LessonLoader from '@/components/lesson/LessonLoader';
 
 async function fetchLesson(lessonUuid: string): Promise<Lesson> {
   const res = await fetch(`/api/lessons/${lessonUuid}`);
@@ -74,6 +75,13 @@ export default function LessonPage() {
     currentLessonItem?.type,
   ]);
 
+  // Handles minimum timeout for lesson loading screen
+  const [hasMinimumTimeElapsed, setHasMinimumTimeElapsed] = useState(false);
+  useEffect(() => {
+    const timer = setTimeout(() => setHasMinimumTimeElapsed(true), 3500); // min load time
+    return () => clearTimeout(timer);
+  }, []);
+
   // Handles going to next lesson item
   const goToNext = () => {
     const isFinalLessonItem = lessonItemIndex + 1 === lesson?.items.length;
@@ -87,7 +95,7 @@ export default function LessonPage() {
 
   // Page render conditions
 
-  if (isLoading) return <div>Loading lesson...</div>;
+  if (isLoading || !hasMinimumTimeElapsed) return <LessonLoader />;
 
   if (isError) return <div>Error loading lesson...</div>;
 

@@ -12,8 +12,8 @@ export default function LessonReadyPrompt({
   const router = useRouter();
 
   return (
-    <div className="flex-1 flex flex-col gap-12 items-center justify-center">
-      <p className="text-4xl">Are you ready?</p>
+    <div className="flex-1 flex flex-col space-y-8 items-center justify-center">
+      <p className="text-4xl">Ready?</p>
       {/* <p className="text-lg">Handa ka na ba?</p> */}
 
       <div className="flex gap-4">
