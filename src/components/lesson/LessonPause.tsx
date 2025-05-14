@@ -42,7 +42,7 @@ export default function LessonPause() {
           aria-label="Pause button"
           className={cn(
             buttonVariants({ variant: 'outline' }),
-            'rounded-full cursor-pointer'
+            'rounded-full cursor-pointer w-10'
           )}
         >
           <Pause />
