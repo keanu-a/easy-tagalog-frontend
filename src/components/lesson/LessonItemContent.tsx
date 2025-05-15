@@ -39,35 +39,34 @@ export default function LessonItemContent({
             'bg-ph-red/20'
         )}
       >
-        <span className="absolute left-3 top-3">
-          {stage === StageType.CHECKED &&
-            item.type !== LessonItemType.SCENARIO_PROMPT &&
-            isUserCorrect && (
-              <CircleCheck
-                size={32}
-                className="text-enable-correct"
-                aria-label="Correct answer"
-              />
-            )}
-          {stage === StageType.CHECKED &&
-            item.type !== LessonItemType.SCENARIO_PROMPT &&
-            !isUserCorrect && (
-              <CircleX
-                size={32}
-                className="text-ph-red"
-                aria-label="Incorrect answer"
-              />
-            )}
-        </span>
+        {stage === StageType.CHECKED &&
+          item.type !== LessonItemType.SCENARIO_PROMPT && (
+            <span className="absolute left-3 top-3">
+              {isUserCorrect && (
+                <CircleCheck
+                  size={32}
+                  className="text-enable-correct"
+                  aria-label="Correct answer"
+                />
+              )}
+              {!isUserCorrect && (
+                <CircleX
+                  size={32}
+                  className="text-ph-red"
+                  aria-label="Incorrect answer"
+                />
+              )}
+            </span>
+          )}
 
         {item.type === LessonItemType.SCENARIO_PROMPT && (
-          <div className="flex flex-col items-center space-y-12">
-            <h3 className="text-muted-foreground text-lg">
+          <div className="space-y-6 text-left">
+            <h3 className="text-muted-foreground">
               Someone comes up to you and asks
             </h3>
             <PhraseWordHover
               phrase={item.promptPhrase}
-              className="text-2xl sm:text-3xl"
+              className="bg-gray-200 rounded-2xl p-4 w-fit"
             />
           </div>
         )}
@@ -82,10 +81,24 @@ export default function LessonItemContent({
           </>
         )}
 
-        {stage === StageType.CHECKED && (
+        {/* TODO: SHOW CORRECT ANSWER */}
+        {/* {stage === StageType.CHECKED && !isUserCorrect && (
           <p className="mt-4 text-xl font-semibold">
             {item.options.find((op) => op.uuid === item.uuid)?.tagalog}
           </p>
+        )} */}
+      </div>
+    );
+
+  console.log(item);
+
+  const renderResponse = () =>
+    item.type === LessonItemType.SCENARIO_PROMPT && (
+      <div className="ml-auto bg-blue-200 rounded-2xl p-4 w-fit">
+        {selectedOptions.length > 0 ? (
+          <PhraseWordHover phrase={item.options[selectedOptions[0]]} />
+        ) : (
+          <p className="border-b-1 w-20 border-black h-6"></p>
         )}
       </div>
     );
@@ -94,21 +107,7 @@ export default function LessonItemContent({
   const renderOptions = () =>
     (stage === StageType.ANSWERING || stage === StageType.CHECKED) && (
       <div className="flex flex-col gap-8 justify-center items-center mt-12">
-        {item.type === LessonItemType.SCENARIO_PROMPT && (
-          <>
-            {stage === StageType.CHECKED ? (
-              <div className="flex flex-col items-center">
-                <p>You responded: </p>
-                <PhraseWordHover
-                  phrase={item.options[selectedOptions[0]]}
-                  className="text-2xl"
-                />
-              </div>
-            ) : (
-              <p>Here are some possible ways to respond:</p>
-            )}
-          </>
-        )}
+        <p>Some ways you can respond:</p>
 
         <div className="space-y-8">
           {item.options.map((option, idx) => (
@@ -174,6 +173,7 @@ export default function LessonItemContent({
   return (
     <div className="relative flex-1 flex flex-col h-full w-full max-w-[40rem] px-4">
       {renderPrompt()}
+      {renderResponse()}
       {renderOptions()}
       {renderBottomButtons()}
     </div>
