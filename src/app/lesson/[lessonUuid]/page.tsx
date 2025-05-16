@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import { AnimatePresence, motion } from 'motion/react';
 
 import { Lesson, LessonItemType } from '@/types/lessonType';
 import LessonReadyPrompt from '@/components/lesson/LessonReadyPrompt';
@@ -116,18 +117,29 @@ export default function LessonPage() {
 
   // Main lesson render
   return (
-    <>
-      {currentLessonItem && (
-        <LessonItemContent
-          item={currentLessonItem}
-          stage={stage}
-          selectedOptions={selectedOptions}
-          isUserCorrect={isUserCorrect}
-          onOptionClick={clickedOption}
-          onCheckAnswer={checkAnswer}
-          onNext={goToNext}
-        />
-      )}
-    </>
+    <div className="relative flex-1 flex">
+      <AnimatePresence>
+        {currentLessonItem && (
+          <motion.div
+            className="absolute w-full h-full"
+            key={currentLessonItem.uuid}
+            initial={{ opacity: 0, x: 100 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -100 }}
+            transition={{ duration: 0.3 }}
+          >
+            <LessonItemContent
+              item={currentLessonItem}
+              stage={stage}
+              selectedOptions={selectedOptions}
+              isUserCorrect={isUserCorrect}
+              onOptionClick={clickedOption}
+              onCheckAnswer={checkAnswer}
+              onNext={goToNext}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   );
 }
