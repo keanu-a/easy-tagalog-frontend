@@ -90,8 +90,6 @@ export default function LessonItemContent({
       </div>
     );
 
-  console.log(item);
-
   const renderResponse = () =>
     item.type === LessonItemType.SCENARIO_PROMPT && (
       <div className="ml-auto bg-blue-200 rounded-2xl p-4 w-fit">

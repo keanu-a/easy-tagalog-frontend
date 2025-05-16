@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'motion/react';
 
 import { Lesson, LessonItemType } from '@/types/lessonType';
 import LessonReadyPrompt from '@/components/lesson/LessonReadyPrompt';
@@ -101,33 +102,60 @@ export default function LessonPage() {
 
   // Start page render
   if (stage === StageType.NOT_READY) {
-    return <LessonReadyPrompt handleStartLesson={startLesson} />;
+    return (
+      <motion.div
+        className="flex-1 flex"
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -100 }}
+        transition={{ duration: 0.3 }}
+      >
+        <LessonReadyPrompt handleStartLesson={startLesson} />
+      </motion.div>
+    );
   }
 
   // Finish page render
   if (stage === StageType.FINISHED) {
     return (
-      <LessonFinish
-        rightAnswered={rightAnswered}
-        onFinishLesson={finishLesson}
-      />
+      <motion.div
+        className="flex-1 flex"
+        initial={{ opacity: 0, x: 100 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -100 }}
+        transition={{ duration: 0.3 }}
+      >
+        <LessonFinish
+          rightAnswered={rightAnswered}
+          onFinishLesson={finishLesson}
+        />
+      </motion.div>
     );
   }
 
   // Main lesson render
   return (
-    <>
+    <div className="relative flex-1 flex">
       {currentLessonItem && (
-        <LessonItemContent
-          item={currentLessonItem}
-          stage={stage}
-          selectedOptions={selectedOptions}
-          isUserCorrect={isUserCorrect}
-          onOptionClick={clickedOption}
-          onCheckAnswer={checkAnswer}
-          onNext={goToNext}
-        />
+        <motion.div
+          className="absolute w-full h-full"
+          key={currentLessonItem.uuid}
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: -100 }}
+          transition={{ duration: 0.3 }}
+        >
+          <LessonItemContent
+            item={currentLessonItem}
+            stage={stage}
+            selectedOptions={selectedOptions}
+            isUserCorrect={isUserCorrect}
+            onOptionClick={clickedOption}
+            onCheckAnswer={checkAnswer}
+            onNext={goToNext}
+          />
+        </motion.div>
       )}
-    </>
+    </div>
   );
 }
