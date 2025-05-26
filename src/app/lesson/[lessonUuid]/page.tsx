@@ -1,23 +1,23 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
-import { motion } from 'motion/react';
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import { motion } from "motion/react";
 
-import { Lesson, LessonItemType } from '@/types/lessonType';
-import LessonReadyPrompt from '@/components/lesson/LessonReadyPrompt';
-import { useLessonProgress } from '@/context/LessonProgressContext';
-import LessonFinish from '@/components/lesson/LessonFinish';
-import LessonItemContent from '@/components/lesson/LessonItemContent';
+import { Lesson, LessonItemType } from "@/types/lessonType";
+import LessonReadyPrompt from "@/components/lesson/LessonReadyPrompt";
+import { useLessonProgress } from "@/context/LessonProgressContext";
+import LessonFinish from "@/components/lesson/LessonFinish";
+import LessonItemContent from "@/components/lesson/LessonItemContent";
 
-import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
-import { useSoundEffects } from '@/hooks/useSoundEffects';
-import LessonLoader from '@/components/lesson/LessonLoader';
+import { useLessonEngine, StageType } from "@/hooks/useLessonEngine";
+import { useSoundEffects } from "@/hooks/useSoundEffects";
+import LessonLoader from "@/components/lesson/LessonLoader";
 
 async function fetchLesson(lessonUuid: string): Promise<Lesson> {
   const res = await fetch(`/api/lessons/${lessonUuid}`);
-  if (!res.ok) throw new Error('Failed to fetch lesson');
+  if (!res.ok) throw new Error("Failed to fetch lesson");
   return res.json();
 }
 
@@ -48,7 +48,7 @@ export default function LessonPage() {
     isLoading,
     isError,
   } = useQuery({
-    queryKey: ['lesson', lessonUuid],
+    queryKey: ["lesson", lessonUuid],
     queryFn: () => fetchLesson(lessonUuid as string),
     enabled: !!lessonUuid, // In case lessonUuid is undefined
   });
@@ -127,6 +127,7 @@ export default function LessonPage() {
       >
         <LessonFinish
           rightAnswered={rightAnswered}
+          items={lesson?.items}
           onFinishLesson={finishLesson}
         />
       </motion.div>
