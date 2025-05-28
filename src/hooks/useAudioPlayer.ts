@@ -12,7 +12,9 @@ export function useAudioPlayer() {
 
     audioRef.current.src = url;
     audioRef.current.currentTime = 0;
-    audioRef.current.play();
+    audioRef.current.play().catch((error) => {
+      console.warn('Failed', error);
+    });
   }, []);
 
   return { playAudio };

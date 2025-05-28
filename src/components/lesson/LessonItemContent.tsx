@@ -29,8 +29,6 @@ export default function LessonItemContent({
 }: LessonItemContentProps) {
   const { playAudio } = useAudioPlayer();
 
-  console.log(item);
-
   useEffect(() => {
     if (item.type === LessonItemType.SCENARIO_PROMPT) {
       playAudio(item.promptPhrase.audioUrl);
