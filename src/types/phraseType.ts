@@ -11,4 +11,5 @@ export interface Phrase {
   english: string;
   isQuestion: boolean;
   phraseWords: PhraseWord[];
+  audioUrl: string;
 }

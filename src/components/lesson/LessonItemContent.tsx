@@ -1,9 +1,12 @@
+import { useEffect } from 'react';
+
 import { StageType } from '@/hooks/useLessonEngine';
 import { LessonItem, LessonItemType } from '@/types/lessonType';
 import { CircleCheck, CircleX } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '../ui/button';
 import PhraseWordHover from '../PhraseWordHover';
+import { useAudioPlayer } from '@/hooks/useAudioPlayer';
 
 interface LessonItemContentProps {
   item: LessonItem;
@@ -24,6 +27,16 @@ export default function LessonItemContent({
   onCheckAnswer,
   onNext,
 }: LessonItemContentProps) {
+  const { playAudio } = useAudioPlayer();
+
+  console.log(item);
+
+  useEffect(() => {
+    if (item.type === LessonItemType.SCENARIO_PROMPT) {
+      playAudio(item.promptPhrase.audioUrl);
+    }
+  }, [item, playAudio]);
+
   const renderPrompt = () =>
     (stage === StageType.ANSWERING || stage === StageType.CHECKED) && (
       <div
