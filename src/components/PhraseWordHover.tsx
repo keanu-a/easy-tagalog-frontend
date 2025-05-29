@@ -9,6 +9,9 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { useAudioPlayer } from '@/hooks/useAudioPlayer';
+import { fetchWordAudioUrl } from '@/lib/api/audio';
+import { useMutation } from '@tanstack/react-query';
 
 interface PhraseWordHoverProps {
   phrase: Phrase;
@@ -23,6 +26,15 @@ export default function PhraseWordHover({
 }: PhraseWordHoverProps) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
   const splitPhrase = useMemo(() => phrase.tagalog.split(' '), [phrase]);
+
+  const { playAudio } = useAudioPlayer();
+
+  const { mutate: fetchAndPlayAudio } = useMutation({
+    mutationFn: fetchWordAudioUrl,
+    onSuccess: (audioUrl) => {
+      if (audioUrl) playAudio(audioUrl);
+    },
+  });
 
   return (
     <TooltipProvider>
@@ -54,7 +66,10 @@ export default function PhraseWordHover({
                 >
                   <TooltipTrigger asChild>
                     <span
-                      onClick={() => setOpenIdx(openIdx === idx ? null : idx)}
+                      onClick={() => {
+                        setOpenIdx(openIdx === idx ? null : idx);
+                        fetchAndPlayAudio(phraseWord?.audioUrl || '');
+                      }}
                       className="cursor-pointer underline font-semibold"
                     >
                       {word}

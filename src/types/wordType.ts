@@ -1,24 +1,24 @@
-import { Phrase } from './phraseType';
+import { Phrase } from "./phraseType";
 
 export enum Tense {
-  PAST = 'past',
-  PRESENT = 'present',
-  FUTURE = 'future',
+  PAST = "past",
+  PRESENT = "present",
+  FUTURE = "future",
 }
 
 export enum PartOfSpeech {
-  N = 'NOUN',
-  V = 'VERN',
-  ADJ = 'ADJECTIVE',
-  ADV = 'ADVERB',
-  PRON = 'PRONOUN',
-  PREP = 'PREPOSITION',
-  CONJ = 'CONJUNCTION',
-  INTERJ = 'INTERJECTION',
-  INTERR = 'INTERROGATIVE',
-  ART = 'ARTICLE',
-  PART = 'PARTICLE',
-  PRE = 'PREFIX',
+  N = "NOUN",
+  V = "VERN",
+  ADJ = "ADJECTIVE",
+  ADV = "ADVERB",
+  PRON = "PRONOUN",
+  PREP = "PREPOSITION",
+  CONJ = "CONJUNCTION",
+  INTERJ = "INTERJECTION",
+  INTERR = "INTERROGATIVE",
+  ART = "ARTICLE",
+  PART = "PARTICLE",
+  PRE = "PREFIX",
 }
 
 export interface Conjugation {
@@ -27,12 +27,12 @@ export interface Conjugation {
   accents: number[];
   english: string;
   tense: Tense;
-  audioUrl?: string;
+  audioUrl: string;
 }
 
 export interface LinkedWord {
   tagalog: string;
-  audioUrl?: string;
+  audioUrl: string;
 }
 
 export interface English {
@@ -57,6 +57,6 @@ export interface Word {
   conjugations?: Conjugation[];
   focusType?: string;
   linkedWord?: LinkedWord;
-  audioUrl?: string;
+  audioUrl: string;
   examplePhrases?: Phrase[];
 }

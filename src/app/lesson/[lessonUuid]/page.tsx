@@ -15,11 +15,7 @@ import { useLessonEngine, StageType } from '@/hooks/useLessonEngine';
 import { useSoundEffects } from '@/hooks/useSoundEffects';
 import LessonLoader from '@/components/lesson/LessonLoader';
 
-async function fetchLesson(lessonUuid: string): Promise<Lesson> {
-  const res = await fetch(`/api/lessons/${lessonUuid}`);
-  if (!res.ok) throw new Error('Failed to fetch lesson');
-  return res.json();
-}
+import { fetchLesson } from '@/lib/api/lesson';
 
 export default function LessonPage() {
   const { lessonUuid } = useParams();
@@ -127,6 +123,7 @@ export default function LessonPage() {
       >
         <LessonFinish
           rightAnswered={rightAnswered}
+          items={lesson?.items}
           onFinishLesson={finishLesson}
         />
       </motion.div>
