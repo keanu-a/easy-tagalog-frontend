@@ -2,8 +2,6 @@
 
 import { Word } from '@/types/wordType';
 import AccentWord from '../AccentWord';
-// import { Volume2 } from 'lucide-react';
-// import { Button } from './ui/button';
 import PhraseWordHover from '../PhraseWordHover';
 import { Button } from '../ui/button';
 import { Volume2 } from 'lucide-react';
