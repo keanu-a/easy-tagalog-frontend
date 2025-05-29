@@ -110,7 +110,7 @@ export default function DictionaryCard({ word }: DictionaryCardProps) {
                 <Button
                   variant="ghost"
                   className="py-0 px-1 cursor-pointer hover:bg-none"
-                  onClick={() => playAudio(conjugation.audioUrl)}
+                  onClick={() => fetchAndPlayAudio(conjugation.audioUrl)}
                 >
                   <Volume2 size={5} />
                 </Button>
@@ -133,7 +133,7 @@ export default function DictionaryCard({ word }: DictionaryCardProps) {
                   <Button
                     variant="ghost"
                     className="py-0 px-1 cursor-pointer hover:bg-none"
-                    onClick={() => playAudio(phrase.audioUrl)}
+                    onClick={() => fetchAndPlayAudio(phrase.audioUrl)}
                   >
                     <Volume2 size={5} />
                   </Button>
