@@ -170,7 +170,7 @@ export default function LessonItemContent({
             onClick={() => onCheckAnswer(item)}
             disabled={selectedOptions.length <= 0}
           >
-            Check
+            {item.type === LessonItemType.SCENARIO_PROMPT ? 'Choose' : 'Check'}
           </Button>
         )}
 
