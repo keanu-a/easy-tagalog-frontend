@@ -95,15 +95,14 @@ export default function LessonItemContent({
               Translate to Tagalog:
             </h3>
             <h2 className="text-2xl">{item.english}</h2>
+            {stage === StageType.CHECKED && !isUserCorrect && (
+              <p className="mt-4 text-ph-red flex flex-col">
+                <span>Correct answer:</span>
+                {item.options.find((op) => op.uuid === item.answer)?.tagalog}
+              </p>
+            )}
           </>
         )}
-
-        {/* TODO: SHOW CORRECT ANSWER */}
-        {/* {stage === StageType.CHECKED && !isUserCorrect && (
-          <p className="mt-4 text-xl font-semibold">
-            {item.options.find((op) => op.uuid === item.uuid)?.tagalog}
-          </p>
-        )} */}
       </div>
     );
 

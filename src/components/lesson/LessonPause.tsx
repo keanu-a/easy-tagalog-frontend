@@ -55,10 +55,14 @@ export default function LessonPause() {
             </DialogDescription>
           </DialogHeader>
 
-          <div className="flex items-center space-x-2 text-muted-foreground">
-            <Switch className="hover:cursor-pointer data-[state=checked]:bg-enable-correct" />
-            <span className="text-sm">Enable Audio</span>
-          </div>
+          {/* IMPLEMENT ENABLE/DISABLE AUDIO */}
+          {/* <div className="flex items-center space-x-2 text-muted-foreground">
+            <Switch
+              defaultChecked={true}
+              className="hover:cursor-pointer data-[state=checked]:bg-enable-correct"
+            />
+            <span className="text-sm">Audio</span>
+          </div> */}
 
           <div className="flex space-x-2">
             <Button
