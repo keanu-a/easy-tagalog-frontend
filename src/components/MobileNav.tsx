@@ -4,7 +4,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { MenuIcon } from 'lucide-react';
 
 import Logo from './Logo';
-import SearchBar from './DictionarySearchBar';
+import SearchBar from './dictionary/DictionarySearchBar';
 import { useState } from 'react';
 
 export default function MobileNav() {

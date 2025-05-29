@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import Logo from './Logo';
 import MaxWidthWrapper from './MaxWidthWrapper';
-import DictionarySearchBar from './DictionarySearchBar';
+import DictionarySearchBar from './dictionary/DictionarySearchBar';
 
 const FOOTER_LINKS = [
   {
