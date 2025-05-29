@@ -3,6 +3,7 @@ export interface PhraseWord {
   english: string;
   note?: string;
   isProperNoun?: boolean;
+  audioUrl: string;
 }
 
 export interface Phrase {
@@ -11,4 +12,5 @@ export interface Phrase {
   english: string;
   isQuestion: boolean;
   phraseWords: PhraseWord[];
+  audioUrl: string;
 }

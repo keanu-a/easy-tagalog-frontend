@@ -28,7 +28,7 @@ export default function LessonFinish({
     : 0;
 
   return (
-    <div className="flex flex-col items-center space-y-4 justify-center mx-auto">
+    <div className="flex flex-col items-center space-y-4 justify-center text-center mx-auto">
       <div className="h-36 w-36 text-ph-blue">
         <CircularProgressbarWithChildren
           value={userAccuracy}
@@ -45,7 +45,7 @@ export default function LessonFinish({
           <p>Accuracy</p>
         </CircularProgressbarWithChildren>
       </div>
-      <div>Thanks for trying the demo and I hope you enjoyed!</div>
+      <p>Thanks for trying the demo and I hope you enjoyed!</p>
       <Link href="/">
         <Button className="cursor-pointer" onClick={onFinishLesson}>
           Finish
