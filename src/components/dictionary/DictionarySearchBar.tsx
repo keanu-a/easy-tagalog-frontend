@@ -4,7 +4,7 @@ import { useState, useTransition } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { Loader2, SearchIcon } from 'lucide-react';
-import { Input } from './ui/input';
+import { Input } from '../ui/input';
 import { cn } from '@/lib/utils';
 
 interface DictionarySearchBarProps {

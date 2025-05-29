@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import MaxWidthWrapper from './MaxWidthWrapper';
 import Logo from './Logo';
-import DictionarySearchBar from './DictionarySearchBar';
+import DictionarySearchBar from './dictionary/DictionarySearchBar';
 import MobileNav from './MobileNav';
 import { Button, buttonVariants } from './ui/button';
 import { usePathname } from 'next/navigation';

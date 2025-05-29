@@ -1,26 +1,45 @@
+'use client';
+
 import { Word } from '@/types/wordType';
-import AccentWord from './AccentWord';
+import AccentWord from '../AccentWord';
 // import { Volume2 } from 'lucide-react';
 // import { Button } from './ui/button';
-import PhraseWordHover from './PhraseWordHover';
+import PhraseWordHover from '../PhraseWordHover';
+import { Button } from '../ui/button';
+import { Volume2 } from 'lucide-react';
+import { useAudioPlayer } from '@/hooks/useAudioPlayer';
+import { useMutation } from '@tanstack/react-query';
+import { fetchWordAudioUrl } from '@/lib/api/audio';
 
 interface DictionaryCardProps {
   word: Word;
 }
 
 export default function DictionaryCard({ word }: DictionaryCardProps) {
+  const { playAudio } = useAudioPlayer();
+
+  const { mutate: fetchAndPlayAudio } = useMutation({
+    mutationFn: fetchWordAudioUrl,
+    onSuccess: (audioUrl) => {
+      if (audioUrl) playAudio(audioUrl);
+    },
+  });
+
   return (
     <li className="p-4 border rounded-md shadow-sm space-y-4 relative">
-      <div className="flex space-x-4 items-center mb-6">
+      <div className="flex space-x-2 items-center mb-6">
         <AccentWord
           tagalog={word.tagalog}
           accents={word.accents}
           className="font-bold text-3xl"
         />
-        {/* TODO: ADD BACK IN BUTTON ONCE RECORDED */}
-        {/* <Button className="rounded-full cursor-pointer" variant="outline">
+        <Button
+          className="rounded-full px-2 cursor-pointer"
+          variant="outline"
+          onClick={() => fetchAndPlayAudio(word.audioUrl)}
+        >
           <Volume2 />
-        </Button> */}
+        </Button>
       </div>
 
       {word.root && (
@@ -58,6 +77,7 @@ export default function DictionaryCard({ word }: DictionaryCardProps) {
           <p className="text-sm text-muted-foreground">WITH LINKER -NG</p>
           <div>
             <p className="text-lg">{word.linkedWord.tagalog}</p>
+            {/* TODO: ADD IN AUDIO FOR LINKED WORDS WHEN READY */}
             {/* <Button className="rounded-full cursor-pointer" variant="outline">
                   <Volume2 />
                 </Button> */}
@@ -89,9 +109,13 @@ export default function DictionaryCard({ word }: DictionaryCardProps) {
                   tagalog={conjugation.tagalog}
                   accents={conjugation.accents}
                 />
-                {/* <Button className="rounded-full cursor-pointer" variant="outline">
-                      <Volume2 />
-                    </Button> */}
+                <Button
+                  variant="ghost"
+                  className="py-0 px-1 cursor-pointer hover:bg-none"
+                  onClick={() => playAudio(conjugation.audioUrl)}
+                >
+                  <Volume2 size={5} />
+                </Button>
               </li>
             ))}
           </ul>
@@ -107,11 +131,15 @@ export default function DictionaryCard({ word }: DictionaryCardProps) {
                 key={idx}
                 className="flex flex-col border-l-2 border-muted pl-2"
               >
-                <div className="flex space-x-2">
+                <div className="flex space-x-2 items-center">
+                  <Button
+                    variant="ghost"
+                    className="py-0 px-1 cursor-pointer hover:bg-none"
+                    onClick={() => playAudio(phrase.audioUrl)}
+                  >
+                    <Volume2 size={5} />
+                  </Button>
                   <PhraseWordHover phrase={phrase} />
-                  {/* <Button className="rounded-full cursor-pointer" variant="outline">
-                        <Volume2 />
-                      </Button> */}
                 </div>
                 <p className="text-muted-foreground italic pl-2">
                   - {phrase.english}
