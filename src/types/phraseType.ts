@@ -3,6 +3,7 @@ export interface PhraseWord {
   english: string;
   note?: string;
   isProperNoun?: boolean;
+  audioUrl: string;
 }
 
 export interface Phrase {

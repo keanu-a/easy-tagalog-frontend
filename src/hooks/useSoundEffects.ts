@@ -6,7 +6,7 @@ export function useSoundEffects() {
   const playSound = useCallback((soundPath: string) => {
     if (!soundEffectRef.current) {
       soundEffectRef.current = new Audio();
-      soundEffectRef.current.volume = 0.4;
+      soundEffectRef.current.volume = 0.1;
     }
 
     soundEffectRef.current.src = soundPath;

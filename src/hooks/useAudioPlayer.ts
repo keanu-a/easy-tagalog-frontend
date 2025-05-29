@@ -8,6 +8,7 @@ export function useAudioPlayer() {
 
     if (!audioRef.current) {
       audioRef.current = new Audio();
+      audioRef.current.volume = 0.9;
     }
 
     audioRef.current.src = url;
