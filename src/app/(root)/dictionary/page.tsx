@@ -1,12 +1,10 @@
 import { Word } from '@/types/wordType';
-import DictionaryCard from '@/components/DictionaryCard';
-import DictionarySearchBar from '@/components/DictionarySearchBar';
+import DictionaryCard from '@/components/dictionary/DictionaryCard';
+import DictionarySearchBar from '@/components/dictionary/DictionarySearchBar';
 
-export default async function DictionaryPage(
-  props: {
-    searchParams: Promise<{ search?: string }>;
-  }
-) {
+export default async function DictionaryPage(props: {
+  searchParams: Promise<{ search?: string }>;
+}) {
   const searchParams = await props.searchParams;
   const query = searchParams.search?.trim();
 
