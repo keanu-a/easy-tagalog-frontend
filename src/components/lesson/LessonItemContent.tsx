@@ -47,7 +47,7 @@ export default function LessonItemContent({
           stage === StageType.CHECKED &&
             item.type !== LessonItemType.SCENARIO_PROMPT &&
             isUserCorrect === false &&
-            'bg-ph-red/20'
+            'bg-ph-red/20',
         )}
       >
         {stage === StageType.CHECKED &&
@@ -125,15 +125,17 @@ export default function LessonItemContent({
           <p>Some ways you can respond:</p>
         )}
 
-        <div className="space-y-8">
+        <div className="rounded-md w-[90vw] md:w-[600px] ">
           {item.options.map((option, idx) => (
             <Button
               key={idx}
               className={cn(
-                'group relative w-[90vw] md:w-[600px] text-black p-4 text-lg bg-ph-yellow rounded-md',
-                'hover:bg-ph-blue hover:text-primary-foreground transition-all hover:-translate-y-1 hover:shadow-md cursor-pointer',
-                selectedOptions.includes(idx) &&
-                  'bg-ph-blue text-primary-foreground -translate-y-1'
+                'group w-full text-primary bg-background p-10 text-lg rounded-none border-gray-100 border-2',
+                'hover:bg-secondary transition-all cursor-pointer flex flex-col',
+                'first:rounded-t-md last:rounded-b-md',
+                selectedOptions.includes(idx) && 'border-2 border-ph-blue',
+                item.type === LessonItemType.TRANSLATE_WORD ||
+                  (item.type === LessonItemType.TRANSLATE_PHRASE && ''),
               )}
               onClick={() => {
                 onOptionClick(idx, item);
@@ -141,23 +143,25 @@ export default function LessonItemContent({
               }}
               disabled={stage === StageType.CHECKED}
             >
+              {option.tagalog}
               {item.type === LessonItemType.SCENARIO_PROMPT &&
                 'english' in option && (
                   <p
                     className={cn(
-                      'absolute left-1 -top-6 text-ph-blue opacity-0 group-hover:opacity-100 transition-opacity',
-                      selectedOptions.includes(idx) && 'opacity-100'
+                      'text-ph-blue text-sm md:text-base opacity-0 group-hover:opacity-100 transition-opacity',
+                      selectedOptions.includes(idx) && 'opacity-100',
                     )}
                   >
                     {option.english}
                   </p>
                 )}
-              {option.tagalog}
             </Button>
           ))}
         </div>
       </div>
     );
+  {
+  }
 
   // Renders check and next buttons
   const renderBottomButtons = () => (
@@ -179,7 +183,7 @@ export default function LessonItemContent({
             className={cn(
               'cursor-pointer w-[90vw] md:w-32',
               isUserCorrect && 'bg-enable-correct hover:bg-enable-correct/85',
-              isUserCorrect === false && 'bg-ph-red hover:bg-ph-red/85'
+              isUserCorrect === false && 'bg-ph-red hover:bg-ph-red/85',
             )}
           >
             Next
