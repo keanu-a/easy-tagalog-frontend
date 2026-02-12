@@ -18,8 +18,7 @@ export default function LoginForm({
   }, [pending, setPending]);
 
   return (
-    <form className="space-y-4 *:space-y-1">
-      {/* <form className="space-y-4 *:space-y-1" action={action}> */}
+    <form className="space-y-4 *:space-y-1" action={action}>
       <div>
         <Label htmlFor="email">Email</Label>
         <Input
@@ -45,18 +44,10 @@ export default function LoginForm({
           placeholder="Password"
           type="password"
           required
-          defaultValue={state?.values?.password}
         />
       </div>
-      {state?.errors?.password && (
-        <div className="text-ph-red text-sm">
-          <p>Password must:</p>
-          <ul>
-            {state.errors.password.map((err, idx) => (
-              <li key={idx}>- {err}</li>
-            ))}
-          </ul>
-        </div>
+      {state?.errors?.password?.[0] && (
+        <p className="text-ph-red text-sm">{state.errors.password[0]}</p>
       )}
 
       {state?.errorMessage && (
@@ -66,8 +57,7 @@ export default function LoginForm({
       <Button
         type="submit"
         className="rounded-full cursor-pointer w-full"
-        disabled={true}
-        // disabled={pending}
+        disabled={pending}
       >
         {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : ''}
         Login

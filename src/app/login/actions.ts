@@ -19,27 +19,28 @@ export async function signup(prevState: any, formData: FormData) {
       values: {
         name: formData.get('name') as string,
         email: formData.get('email') as string,
-        password: formData.get('password') as string,
       },
     };
   }
 
   const supabase = await createClient();
 
-  const data = {
+  const { error } = await supabase.auth.signUp({
     email: formData.get('email') as string,
     password: formData.get('password') as string,
-  };
-
-  const { error } = await supabase.auth.signUp(data);
+    options: {
+      data: {
+        name: formData.get('name') as string,
+      },
+    },
+  });
 
   if (error) {
     return {
       errorMessage: error.message,
       values: {
         name: formData.get('name') as string,
-        email: data.email,
-        password: data.password,
+        email: formData.get('email') as string,
       },
     };
   }
@@ -58,7 +59,6 @@ export async function login(prevState: any, formData: FormData) {
       errors: validationResult.error.flatten().fieldErrors,
       values: {
         email: formData.get('email') as string,
-        password: formData.get('password') as string,
       },
     };
   }
