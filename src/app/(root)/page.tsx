@@ -14,6 +14,7 @@ import {
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import { cn } from '@/lib/utils';
 import RiceBowl from '@/components/RiceBowl';
+import { createClient } from '@/utils/supabase/server';
 
 const DEMO_LESSON_UUID = '7510692f-ed11-415c-8a3a-cb665dc3ab52';
 
@@ -92,7 +93,7 @@ export default function Home() {
                 'animate-float',
                 sun.delay,
                 sun.hidden ?? '',
-                'opacity-50'
+                'opacity-50',
               )}
               src="/images/sun.png"
               width={sun.width}
@@ -139,7 +140,8 @@ export default function Home() {
             <Search className="w-8 h-8 text-primary" />
             <h3 className="text-2xl font-semibold">Lesson-Based Learning</h3>
             <p className="text-muted-foreground text-sm max-w-sm">
-              Structured lessons that build vocabulary and grammar naturally.{' '}
+              Structured lessons that build vocabulary and grammar
+              naturally.{' '}
             </p>
           </CardContent>
         </Card>

@@ -18,8 +18,7 @@ export default function SignupForm({
   }, [pending, setPending]);
 
   return (
-    <form className="space-y-4 *:space-y-1">
-      {/* <form className="space-y-4 *:space-y-1" action={action}> */}
+    <form className="space-y-4 *:space-y-1" action={action}>
       {state?.message && (
         <p className="text-ph-blue text-sm">{state?.message}</p>
       )}
@@ -64,7 +63,6 @@ export default function SignupForm({
           placeholder="Password"
           type="password"
           required
-          defaultValue={state?.values?.password}
         />
       </div>
       {state?.errors?.password && (
@@ -85,8 +83,7 @@ export default function SignupForm({
       <Button
         type="submit"
         className="rounded-full cursor-pointer w-full"
-        disabled={true}
-        // disabled={pending}
+        disabled={pending}
       >
         {pending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : ''}
         Sign Up
