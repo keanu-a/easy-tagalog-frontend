@@ -1,14 +1,43 @@
-import DashboardMobileNav from '@/components/dashboard/DashboardMobileNav';
-import DashboardNav from '@/components/dashboard/DashboardNav';
 import { ReactNode } from 'react';
+import { redirect } from 'next/navigation';
 
-export default function DashboardLayout({ children }: { children: ReactNode }) {
+import DashboardMobileNav from '@/components/dashboard/DashboardMobileNav';
+import DashboardSidebar from '@/components/dashboard/DashboardSidebar';
+import { createClient } from '@/utils/supabase/server';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
+
+export default async function DashboardLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect('/login');
+  }
+
   return (
     <div className="flex min-h-screen">
-      <DashboardNav />
+      <SidebarProvider>
+        <DashboardSidebar />
+        <SidebarInset>
+          <SidebarTrigger className="ml-1 mt-1" />
+        </SidebarInset>
 
-      <DashboardMobileNav />
-      {children}
+        <DashboardMobileNav />
+        <div className="flex items-center justify-center mx-auto">
+          {children}
+        </div>
+      </SidebarProvider>
     </div>
   );
 }
