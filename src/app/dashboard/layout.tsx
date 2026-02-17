@@ -30,13 +30,15 @@ export default async function DashboardLayout({
       <SidebarProvider>
         <DashboardSidebar />
         <SidebarInset>
-          <SidebarTrigger className="ml-1 mt-1" />
-        </SidebarInset>
+          <header>
+            <SidebarTrigger className="ml-1 mt-1 cursor-pointer" />
+            <DashboardMobileNav />
+          </header>
 
-        <DashboardMobileNav />
-        <div className="flex items-center justify-center mx-auto">
-          {children}
-        </div>
+          <main className="flex items-center justify-center mx-auto">
+            {children}
+          </main>
+        </SidebarInset>
       </SidebarProvider>
     </div>
   );
