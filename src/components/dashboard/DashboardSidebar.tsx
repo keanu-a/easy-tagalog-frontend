@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import Link from 'next/link';
 
 import {
   BadgeCheck,
@@ -10,6 +11,7 @@ import {
   HomeIcon,
   LogOut,
 } from 'lucide-react';
+
 import Logo from '../Logo';
 import { Separator } from '../ui/separator';
 import {
@@ -22,7 +24,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '../ui/sidebar';
-import Link from 'next/link';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,6 +33,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { Avatar, AvatarFallback } from '../ui/avatar';
+import { signOut } from '@/app/dashboard/actions';
 
 const dashboardLinks = [
   {
@@ -104,13 +106,15 @@ export default function DashboardSidebar() {
               </DropdownMenuTrigger>
               <DropdownMenuContent className="mb-2" side="right">
                 <DropdownMenuGroup>
-                  <DropdownMenuItem className="cursor-pointer">
-                    <BadgeCheck />
-                    Account
+                  <DropdownMenuItem asChild className="cursor-pointer">
+                    <Link href="/dashboard/account">
+                      <BadgeCheck />
+                      Account
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer">
+                <DropdownMenuItem className="cursor-pointer" onClick={signOut}>
                   <LogOut />
                   Log out
                 </DropdownMenuItem>
