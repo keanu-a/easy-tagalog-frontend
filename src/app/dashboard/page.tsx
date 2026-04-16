@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server';
 
-export default async function Dashboard() {
+export default async function DashboardHome() {
   const supabase = await createClient();
 
   const {

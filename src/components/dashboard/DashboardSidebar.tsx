@@ -23,6 +23,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from '../ui/sidebar';
 import {
   DropdownMenu,
@@ -50,6 +51,8 @@ const dashboardLinks = [
 
 export default function DashboardSidebar() {
   const pathname = usePathname();
+
+  const { isMobile } = useSidebar();
 
   return (
     <Sidebar collapsible="icon">
@@ -104,7 +107,10 @@ export default function DashboardSidebar() {
                   <ChevronsUpDown className="size-4" />
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="mb-2" side="right">
+              <DropdownMenuContent
+                className="mb-2"
+                side={isMobile ? 'top' : 'right'}
+              >
                 <DropdownMenuGroup>
                   <DropdownMenuItem asChild className="cursor-pointer">
                     <Link href="/dashboard/account">

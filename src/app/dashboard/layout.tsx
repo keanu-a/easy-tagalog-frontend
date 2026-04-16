@@ -32,7 +32,7 @@ export default async function DashboardLayout({
         <SidebarInset>
           <header>
             <SidebarTrigger className="ml-1 mt-1 cursor-pointer" />
-            <DashboardMobileNav />
+            {/* <DashboardMobileNav /> */}
           </header>
 
           <main className="flex items-center justify-center mx-auto">
