@@ -1,6 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
+import { User } from '@supabase/supabase-js';
 import Link from 'next/link';
 
 import {
@@ -49,7 +50,7 @@ const dashboardLinks = [
   },
 ];
 
-export default function DashboardSidebar() {
+export default function DashboardSidebar({ user }: { user: User }) {
   const pathname = usePathname();
 
   const { isMobile } = useSidebar();
@@ -97,12 +98,12 @@ export default function DashboardSidebar() {
                 >
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarFallback className="bg-ph-blue text-white">
-                      AB
+                      {user.user_metadata.name?.[0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="font-medium">Name</span>
-                    <span className="text-xs">Email</span>
+                    <span className="font-medium">{user.user_metadata.name}</span>
+                    <span className="text-xs">{user.email}</span>
                   </div>
                   <ChevronsUpDown className="size-4" />
                 </SidebarMenuButton>

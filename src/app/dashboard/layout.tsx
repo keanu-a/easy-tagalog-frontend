@@ -28,7 +28,7 @@ export default async function DashboardLayout({
   return (
     <div className="flex min-h-screen">
       <SidebarProvider>
-        <DashboardSidebar />
+        <DashboardSidebar user={user} />
         <SidebarInset>
           <header>
             <SidebarTrigger className="ml-1 mt-1 cursor-pointer" />
