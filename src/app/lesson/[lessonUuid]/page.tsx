@@ -16,6 +16,7 @@ import { useSoundEffects } from '@/hooks/useSoundEffects';
 import LessonLoader from '@/components/lesson/LessonLoader';
 
 import { fetchLesson } from '@/lib/api/lesson';
+import { createClient } from '@/utils/supabase/client';
 
 export default function LessonPage() {
   const { lessonUuid } = useParams();
@@ -37,6 +38,15 @@ export default function LessonPage() {
   } = useLessonEngine();
 
   const [lessonItemIndex, setLessonItemIndex] = useState(0);
+
+  // Authentication state just for showing different UI on lesson finish page
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
+    });
+  }, []);
 
   // Fetching lesson from database
   const {
@@ -125,6 +135,7 @@ export default function LessonPage() {
           rightAnswered={rightAnswered}
           items={lesson?.items}
           onFinishLesson={finishLesson}
+          isAuthenticated={isAuthenticated}
         />
       </motion.div>
     );
