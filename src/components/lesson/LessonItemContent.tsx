@@ -71,19 +71,30 @@ export default function LessonItemContent({
           )}
 
         {item.type === LessonItemType.SCENARIO_PROMPT && (
-          <div className="space-y-6 text-left">
-            <h3 className="text-muted-foreground">
-              Someone comes up to you and asks
-            </h3>
-            <div className="flex space-x-2 items-center bg-gray-200 rounded-2xl p-4 w-fit">
-              <Button
-                variant="ghost"
-                className="py-0 px-1 cursor-pointer hover:bg-none"
-                onClick={() => playAudio(item.promptPhrase.audioUrl)}
-              >
-                <Volume2 size={5} />
-              </Button>
-              <PhraseWordHover phrase={item.promptPhrase} />
+          <div>
+            <div className="space-y-6 text-left">
+              <h3 className="text-muted-foreground">
+                Someone comes up to you and asks
+              </h3>
+              <div className="flex space-x-1 items-center bg-gray-200 rounded-2xl py-2 px-3 w-fit md:p-4">
+                <Button
+                  variant="ghost"
+                  className="cursor-pointer hover:bg-none"
+                  onClick={() => playAudio(item.promptPhrase.audioUrl)}
+                >
+                  <Volume2 size={5} />
+                </Button>
+                <PhraseWordHover phrase={item.promptPhrase} />
+              </div>
+            </div>
+
+            {/* // Response for SCENARIO_PROMPT QUESTIONS */}
+            <div className="ml-auto bg-blue-200 rounded-2xl py-2 px-3 w-fit md:p-4">
+              {selectedOptions.length > 0 ? (
+                <PhraseWordHover phrase={item.options[selectedOptions[0]]} />
+              ) : (
+                <p className="border-b-1 w-20 border-black h-6"></p>
+              )}
             </div>
           </div>
         )}
@@ -106,21 +117,10 @@ export default function LessonItemContent({
       </div>
     );
 
-  const renderResponse = () =>
-    item.type === LessonItemType.SCENARIO_PROMPT && (
-      <div className="ml-auto bg-blue-200 rounded-2xl p-4 w-fit">
-        {selectedOptions.length > 0 ? (
-          <PhraseWordHover phrase={item.options[selectedOptions[0]]} />
-        ) : (
-          <p className="border-b-1 w-20 border-black h-6"></p>
-        )}
-      </div>
-    );
-
   // Renders prompt/question
   const renderOptions = () =>
     (stage === StageType.ANSWERING || stage === StageType.CHECKED) && (
-      <div className="flex flex-col gap-8 justify-center items-center mt-12">
+      <div className="flex flex-col gap-8 justify-center items-center mt-8 md:mt-24">
         {item.type === LessonItemType.SCENARIO_PROMPT && (
           <p>Some ways you can respond:</p>
         )}
@@ -196,7 +196,6 @@ export default function LessonItemContent({
   return (
     <div className="relative flex-1 flex flex-col h-full w-full max-w-[40rem] px-4">
       {renderPrompt()}
-      {renderResponse()}
       {renderOptions()}
       {renderBottomButtons()}
     </div>
