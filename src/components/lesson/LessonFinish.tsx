@@ -13,19 +13,21 @@ interface LessonFinishProps {
   rightAnswered: number;
   items: LessonItem[] | undefined;
   onFinishLesson: () => void;
+  isAuthenticated: boolean;
 }
 
 export default function LessonFinish({
   rightAnswered,
   items,
   onFinishLesson,
+  isAuthenticated,
 }: LessonFinishProps) {
   const userAccuracy = items
     ? Math.round(
         (rightAnswered /
           items.filter((item) => item.type !== LessonItemType.SCENARIO_PROMPT)
             .length) *
-          1000
+          1000,
       ) / 10
     : 0;
 
@@ -47,8 +49,17 @@ export default function LessonFinish({
           <p>Accuracy</p>
         </CircularProgressbarWithChildren>
       </div>
-      <p>Thanks for trying the demo and I hope you enjoyed!</p>
-      <Link href="/">
+
+      {isAuthenticated ? (
+        <p>
+          Great job completing the lesson! Your progress has been saved, so you
+          can continue learning anytime. See you in the next lesson!
+        </p>
+      ) : (
+        <p>Thanks for trying the demo and I hope you enjoyed!</p>
+      )}
+
+      <Link href={isAuthenticated ? '/dashboard/learn' : '/'} className="w-max">
         <Button className="cursor-pointer" onClick={onFinishLesson}>
           Finish
         </Button>

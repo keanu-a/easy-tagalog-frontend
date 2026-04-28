@@ -42,3 +42,8 @@ export interface Lesson {
   title: string;
   items: LessonItem[];
 }
+
+export interface LessonSummary {
+  uuid: string;
+  title: string;
+}
